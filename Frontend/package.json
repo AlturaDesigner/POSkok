@@ -1,0 +1,39 @@
+{
+  "name": "next",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.6.9",
+    "@apollo/react-hooks": "3.1.5",
+    "@apollo/react-ssr": "3.1.5",
+    "add": "^2.0.6",
+    "apollo-boost": "0.4.7",
+    "apollo-client": "2.6.10",
+    "axios": "^0.27.2",
+    "graphql": "15.0.0",
+    "isomorphic-fetch": "2.2.1",
+    "jquery": "^3.6.1",
+    "js-cookie": "2.2.1",
+    "next": "12.2.5",
+    "next-apollo": "3.1.10",
+    "next-auth": "^4.10.3",
+    "next-connect": "^0.13.0",
+    "next-iron-session": "^4.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-markdown": "^8.0.3",
+    "react-moment": "^1.1.2",
+    "reactstrap": "^9.1.4",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "8.23.0",
+    "eslint-config-next": "12.2.5"
+  }
+}
