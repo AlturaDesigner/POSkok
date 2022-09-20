@@ -33,9 +33,12 @@ color: #dc143c!important;
 }
 .bill{
 background: #dc143c!important;
+box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)!important;
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 .bil:hover{
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)!important;
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 body{
 background: #F0F7FC!important;
@@ -43,10 +46,9 @@ background: #F0F7FC!important;
 
 .grid-container {
   display: grid;
-  grid-template-columns: 8% 69% 25%!important;
+  grid-template-columns: 6% 71% 25%!important;
 }
 .grid-item {
-  text-align: center;
 }
 .first{
   background: white!important;
@@ -135,6 +137,8 @@ pointer-events: none;
   max-width: 200px;
   font-size: 14px;
   font-weight: 400;
+  margin: 0px!important;
+  text-align: center;
 }
 .main-menus p, .main-menus a {
   display: block;
@@ -198,7 +202,7 @@ pointer-events: none;
   text-align: left;
 }
 .logo{
-  width: 200px!important;
+  width: 100px!important;
   margin-top: 10px;
   border-radius: 5px;
   max-width: 130px!important;
@@ -305,10 +309,11 @@ button {
   font-size: 30px;
   border: 0px solid white;
   background-color: transparent;
+  color: #2B2B2B;
 }
 #myNumber{
   background: #F05756;
-  color: white;
+  color: #2b2b2b;
   font-weight: 700;
   font-size: 30px;
   border: 0px solid white!important;
@@ -322,6 +327,9 @@ button {
   left: 0;
   bottom: 0px;
   margin: 20px;
+}
+.bill-inner p{
+font-size: 20px;
 }
 .card{
   pointer-events: none;
@@ -345,6 +353,9 @@ button {
       display: none;
     }
     .nextjs-toast-errors-parent{
+      display: none!important;
+    }
+    .cart-product img, .signoutbtn{
       display: none!important;
     }
 }
@@ -412,10 +423,13 @@ button {
 }
 #putcart .product{
   display: inline-block;
-  width: 100%;
+  width: 100%!important;
 }
-.cart-product{
+.cart-product *{
   display: inline-block;
+}
+.cart-product img{
+  border-radius: 5px;
 }
 #putcart{
   overflow-y: auto;
@@ -426,12 +440,14 @@ button {
 }
 hr{
   opacity: 10%!important;
+  margin: 0;
 }
 #comment{
   display: none;
 }
 .mt-3 .quanitys{
-  display: none!important;
+  position: relative;
+  z-index: 99!important;
   color: #dc143c !important;
 }
 .mt-3{
@@ -558,7 +574,7 @@ margin-left: auto!important;
   position: absolute;
 
   bottom: 20px!important;
-  left : 30px!important;
+  left : 10px!important;
   width: 100px!important;
   
 }
@@ -574,4 +590,9 @@ margin-left: auto!important;
 .odjava{
   color: #c3c3c3;
   margin-top:0px;
+}
+#postime *{
+  position: relative;
+  color: black;
+  text-align: left!important;
 }

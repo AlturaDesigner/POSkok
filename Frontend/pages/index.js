@@ -20,6 +20,9 @@ import { v4 as uuid } from 'uuid';
 
 
 
+const current = new Date();
+  const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+
 
 let auth = '';
 
@@ -29,7 +32,12 @@ let people;
 
 function Headers({ title }) {
 
-  return <h1 class="heading">{title ? title : 'POSkok Sistem'}</h1>;
+  return <div><h1 class="heading">{title ? title : 'POSkok Sistem'}</h1>
+  <div id="postime">
+        <p class="date" id="dates" value="b">{date} <span id="clock"></span></p>
+        </div>
+        </div>
+
 
   
  }
@@ -37,6 +45,8 @@ function Headers({ title }) {
 
 export default function Home({ menus, restaurants, categories, error }) {
   const { data: session } = useSession();
+
+  
 
 
 
@@ -47,6 +57,25 @@ export default function Home({ menus, restaurants, categories, error }) {
 
     console.log('session.jwt', session.jwt);
     console.log('id.jwt', session.jwt.id);
+
+    function startTime() {
+      const today = new Date();
+      let h = today.getHours();
+      let m = today.getMinutes();
+      let s = today.getSeconds();
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById('clock').innerHTML =  h + ":" + m + ":" + s;
+      setTimeout(startTime, 1000);
+
+     
+    }
+    
+    function checkTime(i) {
+      if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+      return i;
+    }
+    startTime();
 
 
     
@@ -80,13 +109,20 @@ export default function Home({ menus, restaurants, categories, error }) {
 
     document.getElementById('putcart').innerHTML = "";
     document.getElementById('putcart').innerHTML += "";
+    document.getElementById('total').value = 0;
   };
+
+    
   const handleClick = async () => {
     
     const container = document.getElementById('comment').innerHTML;
 
 
     var testing = document.getElementById("comment").value;
+
+    var xyz = document.getElementById("total");
+    let gettotal =  xyz.value;
+
     setIsLoading(true);
     try {
       const { data } = await axios.post(
@@ -96,13 +132,16 @@ export default function Home({ menus, restaurants, categories, error }) {
           "data": {
             "SaleTitle": valued,
             "Invoice": unique_id,
-            "Order": testing
-          },
-          "customer": {
-            "data": {
-              "id": 1
+            "Order": testing,
+            "Cashier": session.user.email,
+            "Amount": gettotal,
+            "customer": {
+              "data": {
+                "id": 1
+              }
             }
           }
+         
         },
         {
           headers: {
@@ -156,7 +195,9 @@ export default function Home({ menus, restaurants, categories, error }) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"></link>;
   <script>
     
+    
   </script>
+
 
 const handleClickss = async () => {
  
@@ -172,6 +213,7 @@ const handleClickss = async () => {
 let some = ".product" + removeId;
 
 let somes = ".product" + removeId + " .price";
+let somes2 = "total";
 
 let title = ".product" + removeId + " .card-title";
 
@@ -187,32 +229,28 @@ let tests = document.querySelector(somes).innerHTML;
 let testss = document.querySelector(title).innerHTML;
 let testsss = document.querySelector(cardimg).innerHTML;
 let testssss = document.querySelector(quant).innerHTML;
+var xy = document.getElementById("total");
+let tests2 =  xy.value;
 
 people = { id: tests ,firstName: testsss};
 
 
 
 
-console.log(people);
-console.log(tests + tests);
+console.log("tests2 ===== " + tests2);
+console.log(tests + tests2);
 
 
-
-
-var yy = document.getElementById('total').value;
-var y = parseInt(tests);
-console.log("ovo je yy" + yy);
-console.log("ovo je y" + y);
-let yyy = parseInt(yy) + y;
+var yy = tests2;
+let yyy = parseFloat(tests) + parseFloat(tests2);
 console.log("ovo je yyy" + yyy);
 
-document.getElementById('putcart').innerHTML += "<div class=\'" + "cart-product" +'\'>' + testsss + "<p>" + testss + "</p>" + tests + testssss + "</div>" + "<hr>";
-
+document.getElementById('putcart').innerHTML += "<div class=\'" + "cart-product" +'\'>' + testsss + "<h3>" + testss + "</h3>" + "<p>" + tests + "</p>" + testssss + "</div>" + "<hr>";
 
 document.getElementById('putcart').innerHTML += "<br>";
 
 
-document.getElementById('total').value = yyy;
+document.getElementById('total').value = parseFloat(yyy).toFixed( 2 );
 document.getElementById('comment').value += "\n";
 document.getElementById('comment').value += tests + " " + testss + ", " + "\n";
 
@@ -233,13 +271,13 @@ const container = document.getElementById('comment');
 
 
 
-  const current = new Date();
-  const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+  
 
 
   return (
     
     <div class="container">
+      
        {session ? (
 
       
@@ -288,13 +326,7 @@ const container = document.getElementById('comment');
       </script>
       <div class="grid-item middle-grid">
         <Headers />
-
         
-
-
-
-        <p class="date" id="dates" value="b">{date}</p>
-
 
         <div class="align-left">
 
@@ -342,7 +374,7 @@ const container = document.getElementById('comment');
                   </h2>
                   <div class="d-flex justify-content-between align-items-end mt-3">
                       <div class="quanitys">
-                      <input type="number" id="myNumber" min="1" max={restaurant.attributes.StockQuantity}></input>
+                      KOL.<input type="number" id="myNumber" min="1" max={restaurant.attributes.StockQuantity}></input>
                       </div>
                   
                   
@@ -352,7 +384,8 @@ const container = document.getElementById('comment');
                     document.getElementById("demo").innerHTML = x;
                   
                   </script>
-                  <span class="font-weight-bold price">{restaurant.attributes.price} </span>
+               
+                  <span class="font-weight-bold price">{restaurant.attributes.price}</span>
                       
                   </div>
               </div>
@@ -409,8 +442,21 @@ const container = document.getElementById('comment');
       )}
      
     </div>
-    <p>RACUN BR: {unique_id}</p>
+    <p>BROJ RACUNA: {unique_id}</p>
             <div id="putcart"></div>
+            <div class="naslovracuna">
+            <p>========FISKALNI RACUN=======</p>
+            <p>000000000</p>
+            <p>POSKOK CAFFEE</p>
+            <p>0000000 - Kafic Nasumicna ulica</p>
+            <p>NASUMICNA ULICA 001</p>
+            <p>NOVI SAD</p>
+            <p>KASIR</p>
+            <p>ESIR broj:</p>
+            <p>---------PRODAJA---------</p>
+            
+
+            </div>
             
             
                                   
@@ -423,10 +469,11 @@ const container = document.getElementById('comment');
 
             <div>
 
-              <p>TOTAL:</p><input class="total" id="total" value={total} onChange={e => setTotal(e.target.value)} />
+              <p>UKUPNO:<input class="total" id="total" value="0" onChange={e => setTotal(e.target.value)} /></p>
+              <p>GOTOVINA:<input class="cash" id="cash" value="0" /></p>
+              <p>POVRACAJ:<input class="cash" id="cash" value="0" /></p>
 
             </div>
-            <input class="valued" value={valued} onChange={e => setValued(e.target.value)} /><br></br>
             <input class="comment" id="comment" value={comment} onChange={e => setComment(e.target.value)}/><br></br>
 
 
