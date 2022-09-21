@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Source+Sans+Pro:wght@200;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap');
 
 
 
@@ -79,6 +80,11 @@ background: #F0F7FC!important;
   max-width: 100%;
   min-width: 22%;
   height: 100vh;
+}
+.cash{
+  border: 1px solid #dc143c;
+  background: transparent;
+
 }
 .first{
 background: white;
@@ -343,7 +349,7 @@ font-size: 20px;
     {
         display: none !important;
     }
-    .product-ul, .bill, .main-product-menus, .main-menus, .dates, .middle-grid{
+    .product-ul, .bill, .main-product-menus, .main-menus, .dates, .middle-grid, .authx, .billid{
       display: none;
     }
     .grid-item-recipient{
@@ -362,22 +368,6 @@ font-size: 20px;
 .card-img-top{
   margin-left: 0px!important;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .product{
   border:none !important;
@@ -409,6 +399,7 @@ font-size: 20px;
 }
 #putcart{
   color: black;
+  margin: 20px!important;
 }
 #putcart .text-black-50{
   display: none;
@@ -583,9 +574,11 @@ margin-left: auto!important;
   height: auto;
 }
 .grid-item-recipient{
+  padding: 20px;
 }
 .grid-item-cart{
   padding: 20px;
+  margin-right: 0px!important;
 }
 .odjava{
   color: #c3c3c3;
@@ -595,4 +588,12 @@ margin-left: auto!important;
   position: relative;
   color: black;
   text-align: left!important;
+}
+canvas{
+  text-align: center;
+}
+.billheading p{
+  margin: 0px!important;
+  padding: 0px;
+  font-family: 'Ubuntu Mono', monospace!important;
 }

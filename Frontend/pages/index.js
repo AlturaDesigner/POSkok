@@ -1,10 +1,7 @@
 import { signOut, useSession, getSession } from 'next-auth/react';
 import Head from 'next/head';
 import Link from 'next/link';
-
 import { useRef, useState, useEffect } from "react";
-
-
 import { getStrapiMedia } from "/lib/media"
 import { fetchAPI } from "/lib/api"
 import Header from "../components/header";
@@ -14,6 +11,11 @@ import AddTodo from "../containers/addTodo";
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { v4 as uuid } from 'uuid';
+import { useQRCode } from 'next-qrcode';
+import 'animate.css';
+
+
+
 
 
 
@@ -22,6 +24,14 @@ import { v4 as uuid } from 'uuid';
 
 const current = new Date();
   const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+
+
+const time = current.toLocaleTimeString("en-US", {
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false
+});
+
 
 
 let auth = '';
@@ -45,6 +55,8 @@ function Headers({ title }) {
 
 export default function Home({ menus, restaurants, categories, error }) {
   const { data: session } = useSession();
+
+  const { Canvas } = useQRCode();
 
   
 
@@ -76,6 +88,7 @@ export default function Home({ menus, restaurants, categories, error }) {
       return i;
     }
     startTime();
+    
 
 
     
@@ -161,6 +174,7 @@ export default function Home({ menus, restaurants, categories, error }) {
     } finally {
       setIsLoading(false);
     }
+    
     
 
     window.print();
@@ -259,20 +273,7 @@ document.getElementById('comment').value += ' ';
 
 const container = document.getElementById('comment');
 
-
-
-
-
-
-
 };
-
-
-
-
-
-  
-
 
   return (
     
@@ -280,17 +281,12 @@ const container = document.getElementById('comment');
       
        {session ? (
 
-      
-
-
-      
-
     <div class="grid-container">
       <div class="grid-item first">
         <div class="main-menus" id="menus-parent">
 
           <img src="http://localhost:1337/uploads/poskok_red_bg_3d5af940f4.png?updated_at=2022-09-17T22:08:34.555Z" class="logo"></img>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+          
           {menus.data.map(menu => (
             <li key={menu.id} class="main-menus" id="menu-item">
               <div class="menus-wrap">
@@ -298,16 +294,9 @@ const container = document.getElementById('comment');
                 <a href={menu.attributes.link}>{menu.attributes.name}</a>
               </div>
 
-
-
-
-
             </li>
           ))}
          
-          
-
-
         </div>
         {session ? (
         <button class="signoutbtn" onClick={signOut}><img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" ></img>
@@ -327,22 +316,13 @@ const container = document.getElementById('comment');
       <div class="grid-item middle-grid">
         <Headers />
         
-
         <div class="align-left">
-
-
-
           {categories.data.map(category => (
             <li key={categories.id} class="main-product-menus">
               <div class="menus-product-wrap">
                 <img src={"http://localhost:1337" + category.attributes.image.data.attributes.url}></img>
                 <a href={category.attributes.link}>{category.attributes.name}</a>
               </div>
-
-
-
-
-
             </li>
           ))}
 
@@ -371,6 +351,7 @@ const container = document.getElementById('comment');
               <div class="card-body border rounded">
                   <h2 class="card-title font-weight-bold text-nowrap overflow-hidden text-primary">
                   {restaurant.attributes.title}
+                  <p>kategorija {restaurant.attributes.categories.data.id}</p>
                   </h2>
                   <div class="d-flex justify-content-between align-items-end mt-3">
                       <div class="quanitys">
@@ -392,29 +373,11 @@ const container = document.getElementById('comment');
               
               
           </div>
-         
-
-                      
-                      
-                      
-
-              
-              
           </button>
 
             </li>
-            
-            
           ))}
-
-
-
-        </ul>
-
-
-        
-                             
-                          </div>
+        </ul>    </div>
 
                             <script>
                             
@@ -442,18 +405,39 @@ const container = document.getElementById('comment');
       )}
      
     </div>
-    <p>BROJ RACUNA: {unique_id}</p>
+    <p class="billid">BROJ RACUNA: {unique_id}</p>
             <div id="putcart"></div>
-            <div class="naslovracuna">
+            <div class="billheading">
             <p>========FISKALNI RACUN=======</p>
             <p>000000000</p>
             <p>POSKOK CAFFEE</p>
             <p>0000000 - Kafic Nasumicna ulica</p>
             <p>NASUMICNA ULICA 001</p>
             <p>NOVI SAD</p>
-            <p>KASIR</p>
+            <p>KASIR: <span>{session.user.email}</span></p>
             <p>ESIR broj:</p>
-            <p>---------PRODAJA---------</p>
+            <p>===========PRODAJA===========</p>
+            <p>BROJ RACUNA:</p>
+            <p id="text">{unique_id}</p>
+            <p>=============================</p>
+            <p>PFR VREME: {date + " " + time}</p>
+            <Canvas
+      text={unique_id}
+      options={{
+        type: 'image/jpeg',
+        quality: 0.3,
+        level: 'M',
+        margin: 3,
+        scale: 4,
+        width: 200,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF',
+        },
+      }}
+    />
+    <p>=====KRAJ FISKALNOG RACUNA====</p>
+
             
 
             </div>
@@ -470,8 +454,8 @@ const container = document.getElementById('comment');
             <div>
 
               <p>UKUPNO:<input class="total" id="total" value="0" onChange={e => setTotal(e.target.value)} /></p>
-              <p>GOTOVINA:<input class="cash" id="cash" value="0" /></p>
-              <p>POVRACAJ:<input class="cash" id="cash" value="0" /></p>
+              <p>GOTOVINA:<input class="cash" id="cash" value=""/></p>
+              <p>POVRACAJ:<span class="cashreturn" id="cashreturn"></span></p>
 
             </div>
             <input class="comment" id="comment" value={comment} onChange={e => setComment(e.target.value)}/><br></br>
@@ -513,7 +497,7 @@ const container = document.getElementById('comment');
     ) : (
       <div class="start">
          
-        <img src="http://localhost:1337/uploads/Group_2_b1fbbdf67f.png?updated_at=2022-09-17T20:32:22.580Z" class="logos"></img>
+        <img src="http://localhost:1337/uploads/Group_2_b1fbbdf67f.png?updated_at=2022-09-17T20:32:22.580Z" class="logos animate__animated animate__bounce"></img>
         <p>POSKOK - POS</p>
         <p>Kompletno rešenje za poslovanje pravnih lica i preduzetnika</p>
         <div class="start-card">
