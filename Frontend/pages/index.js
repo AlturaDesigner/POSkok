@@ -88,6 +88,8 @@ export default function Home({ menus, restaurants, categories, error }) {
       return i;
     }
     startTime();
+
+   
     
 
 
@@ -123,6 +125,9 @@ export default function Home({ menus, restaurants, categories, error }) {
     document.getElementById('putcart').innerHTML = "";
     document.getElementById('putcart').innerHTML += "";
     document.getElementById('total').value = 0;
+    document.getElementById('cash').value = 0;
+    document.getElementById('cashreturn').value = 0;
+    
   };
 
     
@@ -244,19 +249,18 @@ let testss = document.querySelector(title).innerHTML;
 let testsss = document.querySelector(cardimg).innerHTML;
 let testssss = document.querySelector(quant).innerHTML;
 var xy = document.getElementById("total");
+var cash = document.getElementById("cash");
+let cashvalue = cash.value;
 let tests2 =  xy.value;
+
 
 people = { id: tests ,firstName: testsss};
 
 
-
-
-console.log("tests2 ===== " + tests2);
-console.log(tests + tests2);
-
-
-var yy = tests2;
 let yyy = parseFloat(tests) + parseFloat(tests2);
+
+let yyyy = parseFloat(yyy) - parseFloat(cashvalue);
+
 console.log("ovo je yyy" + yyy);
 
 document.getElementById('putcart').innerHTML += "<div class=\'" + "cart-product" +'\'>' + testsss + "<h3>" + testss + "</h3>" + "<p>" + tests + "</p>" + testssss + "</div>" + "<hr>";
@@ -265,11 +269,13 @@ document.getElementById('putcart').innerHTML += "<br>";
 
 
 document.getElementById('total').value = parseFloat(yyy).toFixed( 2 );
+document.getElementById('cashreturn').value = parseFloat(yyyy).toFixed( 2 );
 document.getElementById('comment').value += "\n";
 document.getElementById('comment').value += tests + " " + testss + ", " + "\n";
 
 
 document.getElementById('comment').value += ' ';
+
 
 const container = document.getElementById('comment');
 
@@ -351,11 +357,11 @@ const container = document.getElementById('comment');
               <div class="card-body border rounded">
                   <h2 class="card-title font-weight-bold text-nowrap overflow-hidden text-primary">
                   {restaurant.attributes.title}
-                  <p>kategorija {restaurant.attributes.categories.data.id}</p>
                   </h2>
                   <div class="d-flex justify-content-between align-items-end mt-3">
                       <div class="quanitys">
                       KOL.<input type="number" id="myNumber" min="1" max={restaurant.attributes.StockQuantity}></input>
+                      
                       </div>
                   
                   
@@ -421,6 +427,9 @@ const container = document.getElementById('comment');
             <p id="text">{unique_id}</p>
             <p>=============================</p>
             <p>PFR VREME: {date + " " + time}</p>
+            <p>PFR VREME: {date + " " + time}</p>
+            <p>PFR VREME: {date + " " + time}</p>
+
             <Canvas
       text={unique_id}
       options={{
@@ -454,8 +463,8 @@ const container = document.getElementById('comment');
             <div>
 
               <p>UKUPNO:<input class="total" id="total" value="0" onChange={e => setTotal(e.target.value)} /></p>
-              <p>GOTOVINA:<input class="cash" id="cash" value=""/></p>
-              <p>POVRACAJ:<span class="cashreturn" id="cashreturn"></span></p>
+              <p>GOTOVINA:<input type="text" name="name" class="cash" id ="cash" onchange={handleClick}/></p>
+              <p>POVRACAJ:<input class="cashreturn" id="cashreturn" value="0" /></p>
 
             </div>
             <input class="comment" id="comment" value={comment} onChange={e => setComment(e.target.value)}/><br></br>
