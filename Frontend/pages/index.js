@@ -280,6 +280,22 @@ document.getElementById('comment').value += ' ';
 const container = document.getElementById('comment');
 
 };
+const handleClicksss = async () => {
+
+
+var xy = document.getElementById("total");
+var cash = document.getElementById("cash");
+let cashvalue = cash.value;
+let tests2 =  xy.value;
+
+
+
+
+let yyyy = parseFloat(tests2) - parseFloat(cashvalue);
+
+document.getElementById('cashreturn').value = parseFloat(yyyy).toFixed( 2 );
+
+};
 
   return (
     
@@ -463,11 +479,12 @@ const container = document.getElementById('comment');
             <div>
 
               <p>UKUPNO:<input class="total" id="total" value="0" onChange={e => setTotal(e.target.value)} /></p>
-              <p>GOTOVINA:<input type="text" name="name" class="cash" id ="cash" onchange={handleClick}/></p>
-              <p>POVRACAJ:<input class="cashreturn" id="cashreturn" value="0" /></p>
+              <p>GOTOVINA:<input type="text" name="name" class="cash" id ="cash" onChange={handleClicksss}/></p>
+              <p>POVRACAJ:<input class="cashreturn" id="cashreturn" /></p>
 
             </div>
             <input class="comment" id="comment" value={comment} onChange={e => setComment(e.target.value)}/><br></br>
+            
 
 
 

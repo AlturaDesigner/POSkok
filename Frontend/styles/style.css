@@ -602,4 +602,9 @@ canvas{
   padding: 0px;
   font-family: 'Ubuntu Mono', monospace!important;
 }
-
+#cashreturn{
+  background:transparent;
+  border: 0px;
+  color: #2b2b2b;
+  font-size: 20px;
+}
