@@ -13,32 +13,18 @@ import { render } from 'react-dom';
 import { v4 as uuid } from 'uuid';
 import { useQRCode } from 'next-qrcode';
 import 'animate.css';
+import Image from 'next/image'
 
-
-
-
-
-
-
-
+let people;
 
 const current = new Date();
-  const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
-
+const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
 
 const time = current.toLocaleTimeString("en-US", {
   hour: "2-digit",
   minute: "2-digit",
   hour12: false
 });
-
-
-
-let auth = '';
-
-let people;
-
-
 
 function Headers({ title }) {
 
@@ -47,22 +33,12 @@ function Headers({ title }) {
         <p class="date" id="dates" value="b">{date} <span id="clock"></span></p>
         </div>
         </div>
-
-
-  
  }
  
-
-export default function Home({ menus, restaurants, categories, error }) {
+export default function Home({ menus, restaurants, categories, customers, error }) {
   const { data: session } = useSession();
 
   const { Canvas } = useQRCode();
-
-  
-
-
-
-
 
   useEffect(() => {
     if (session == null) return;
@@ -79,8 +55,7 @@ export default function Home({ menus, restaurants, categories, error }) {
       s = checkTime(s);
       document.getElementById('clock').innerHTML =  h + ":" + m + ":" + s;
       setTimeout(startTime, 1000);
-
-     
+ 
     }
     
     function checkTime(i) {
@@ -89,23 +64,129 @@ export default function Home({ menus, restaurants, categories, error }) {
     }
     startTime();
 
-   
+    var btnContainer = document.getElementById("menus-parent");
+
+    // Get all buttons with class="btn" inside the container
+    var btns = btnContainer.getElementsByClassName("menus-wrap");
     
+    // Loop through the buttons and add the active class to the current/clicked button
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function() {
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+      });
+    } 
 
 
-    
 
-    
-    
-    
-  }, [session]);
-
+    function init() {
+      // enable active states for buttons in mobile safari
+      document.addEventListener("touchstart", function () {}, false);
   
- 
+      setInputButtonState();
+      setBackgroundColor();
+  }
+  
+  function handleNumberInput() {
+      setInputButtonState();
+      setBackgroundColor();
+  }
+  
+  function setBackgroundColor() {
+      const hue = document.getElementById("hue").value;
+      const saturation = document.getElementById("saturation").value;
+      const lightness = document.getElementById("lightness").value;
+  
+      document.body.style.backgroundColor = "hsl(" + hue + "," + saturation + "%," + lightness + "%)";
+  }
+  
+  function handleNumberInputBlur(event) {
+      const value = event.target.value;
+  
+      if (event.target.hasAttribute("min") && value < parseFloat(event.target.min))
+          event.target.value = event.target.min;
+  
+      if (event.target.hasAttribute("max") && value > parseFloat(event.target.max))
+          event.target.value = event.target.max;
+  }
+  
+  function setInputButtonState() {
+      const inputs = document.getElementsByClassName("number-input-text-box");
+  
+      for (let input of inputs) {
+          if (input.id.length > 0) { // during value transition the old input won't have an id
+              const value = input.value;
+              const parent = input.parentElement.parentElement;
+  
+              if (parent.children[0] && input.hasAttribute("min"))
+                  parent.children[0].disabled = value <= parseFloat(input.min);
+  
+              if (parent.children[2] && input.hasAttribute("max"))
+                  parent.children[2].disabled = value >= parseFloat(input.max);
+          }
+      }
+  }
+  
+  function setNumber(event) {
+      let button = event.target;
+      let input = document.getElementById(button.dataset.inputId);
+  
+      if (input) {
+          let value = parseFloat(input.value);
+          let step = parseFloat(input.dataset.step);
+  
+          if (button.dataset.operation === "decrement") {
+              value -= isNaN(step) ? 1 : step;
+          } else if (button.dataset.operation === "increment") {
+              value += isNaN(step) ? 1 : step;
+          }
+  
+          if (input.hasAttribute("min") && value < parseFloat(input.min)) {
+              value = input.min;
+          }
+  
+          if (input.hasAttribute("max") && value > parseFloat(input.max)) {
+              value = input.max;
+          }
+  
+          if (input.value !== value) {
+              setInputValue(input, value);
+              setBackgroundColor();
+              setInputButtonState();
+          }
+      }
+  }
+  
+  function setInputValue(input, value) {
+      let newInput = input.cloneNode(true);
+      const parentBox = input.parentElement.getBoundingClientRect();
+  
+      input.id = "";
+  
+      newInput.value = value;
+  
+      if (value > input.value) {
+          // right to left
+          input.parentElement.appendChild(newInput);
+          input.style.marginLeft = -parentBox.width + "px";
+      } else if (value < input.value) {
+          // left to right
+          newInput.style.marginLeft = -parentBox.width + "px";
+          input.parentElement.prepend(newInput);
+          window.setTimeout(function () {
+              newInput.style.marginLeft = 0
+          }, 20);
+      }
+  
+      window.setTimeout(function () {
+          input.parentElement.removeChild(input);
+      }, 250);
+  }
+  
+  window.onload = init;
 
-
-
-
+  }, [session]);
 
   const unique_id = uuid();
 
@@ -127,17 +208,12 @@ export default function Home({ menus, restaurants, categories, error }) {
     document.getElementById('total').value = 0;
     document.getElementById('cash').value = 0;
     document.getElementById('cashreturn').value = 0;
-    
+
   };
 
-    
   const handleClick = async () => {
-    
     const container = document.getElementById('comment').innerHTML;
-
-
     var testing = document.getElementById("comment").value;
-
     var xyz = document.getElementById("total");
     let gettotal =  xyz.value;
 
@@ -179,69 +255,28 @@ export default function Home({ menus, restaurants, categories, error }) {
     } finally {
       setIsLoading(false);
     }
-    
-    
 
     window.print();
     document.getElementById('putcart').innerHTML = "";
     document.getElementById('putcart').innerHTML += "";
-    
+
   };
 
   console.log(data);
 
-  
-
-  var jsonObj = {
-    data: [
-      {
-        "id": 2,
-        "attributes": {
-          "SaleTitle": "qwerty",
-          "createdAt": "2022-09-04T13:06:26.017Z",
-          "updatedAt": "2022-09-08T21:30:21.073Z",
-          "publishedAt": "2022-09-08T21:30:21.070Z",
-          "Invoice": "09808978676575",
-          "PaymentType": "Cash",
-          "RefundType": null,
-          "Comment": "This is test",
-          "Amount": 0.01
-        }
-      }]};
-
-
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"></link>;
-  <script>
-    
-    
-  </script>
-
 
 const handleClickss = async () => {
- 
 
-  var html_to_insert = "<p>New paragraph</p>";
-
-  // with .innerHTML, destroys event listeners
-  
-
-  var removeId = event.target.attributes.getNamedItem('data-id').value;
-  console.log(removeId);
+var removeId = event.target.attributes.getNamedItem('data-id').value;
 
 let some = ".product" + removeId;
-
 let somes = ".product" + removeId + " .price";
 let somes2 = "total";
-
 let title = ".product" + removeId + " .card-title";
-
 let cardimg = ".product" + removeId + " .cover";
-
 let quant = ".product" + removeId + " .quanitys";
-
-  let target =  document.querySelector('[data-id="p' + removeId + '"]');
-
+let target =  document.querySelector('[data-id="p' + removeId + '"]');
 
 let test = document.querySelector(some).innerHTML;
 let tests = document.querySelector(somes).innerHTML;
@@ -253,43 +288,27 @@ var cash = document.getElementById("cash");
 let cashvalue = cash.value;
 let tests2 =  xy.value;
 
-
 people = { id: tests ,firstName: testsss};
 
-
 let yyy = parseFloat(tests) + parseFloat(tests2);
-
 let yyyy = parseFloat(yyy) - parseFloat(cashvalue);
 
-console.log("ovo je yyy" + yyy);
-
-document.getElementById('putcart').innerHTML += "<div class=\'" + "cart-product" +'\'>' + testsss + "<h3>" + testss + "</h3>" + "<p>" + tests + "</p>" + testssss + "</div>" + "<hr>";
-
-document.getElementById('putcart').innerHTML += "<br>";
-
-
+document.getElementById('putcart').innerHTML += "<div class=\'" + "cart-product" +'\'>' + " " + testsss + " " + "<h3>" + testss + "</h3>" + " " + "<p>" + tests + "</p>" + testssss + "</div>" + "<hr>";
 document.getElementById('total').value = parseFloat(yyy).toFixed( 2 );
 document.getElementById('cashreturn').value = parseFloat(yyyy).toFixed( 2 );
 document.getElementById('comment').value += "\n";
 document.getElementById('comment').value += tests + " " + testss + ", " + "\n";
-
-
 document.getElementById('comment').value += ' ';
-
 
 const container = document.getElementById('comment');
 
 };
 const handleClicksss = async () => {
 
-
 var xy = document.getElementById("total");
 var cash = document.getElementById("cash");
 let cashvalue = cash.value;
 let tests2 =  xy.value;
-
-
-
 
 let yyyy = parseFloat(tests2) - parseFloat(cashvalue);
 
@@ -306,16 +325,14 @@ document.getElementById('cashreturn').value = parseFloat(yyyy).toFixed( 2 );
     <div class="grid-container">
       <div class="grid-item first">
         <div class="main-menus" id="menus-parent">
-
           <img src="http://localhost:1337/uploads/poskok_red_bg_3d5af940f4.png?updated_at=2022-09-17T22:08:34.555Z" class="logo"></img>
-          
+          <li class="main-menus active hidethis">ovo</li>
           {menus.data.map(menu => (
             <li key={menu.id} class="main-menus" id="menu-item">
               <div class="menus-wrap">
                 <img src={"http://localhost:1337" + menu.attributes.image.data.attributes.url}></img>
                 <a href={menu.attributes.link}>{menu.attributes.name}</a>
               </div>
-
             </li>
           ))}
          
@@ -347,26 +364,15 @@ document.getElementById('cashreturn').value = parseFloat(yyyy).toFixed( 2 );
               </div>
             </li>
           ))}
-
         </div>
-
-
-
-
 
         <ul class="product-ul">
           
-          {restaurants.data.map(restaurant => (
-            
-             
+          {restaurants.data.map(restaurant => (  
             <li key={restaurant.id} class={"product-list div1 card-columns " + "product" + restaurant.id}id="product" >
               <button onClick={handleClickss} class={"" + "button" + restaurant.id} data-id={restaurant.id}>
 
-
-
-
-
-<div class="card product pt-4" data-id={"p" + restaurant.id}>
+              <div class="card product pt-4" data-id={"p" + restaurant.id}>
               <div class="cover">
               <img src={"http://localhost:1337" + restaurant.attributes.image.data.attributes.url} class="card-img-top" alt=""></img>
               </div>
@@ -375,12 +381,38 @@ document.getElementById('cashreturn').value = parseFloat(yyyy).toFixed( 2 );
                   {restaurant.attributes.title}
                   </h2>
                   <div class="d-flex justify-content-between align-items-end mt-3">
-                      <div class="quanitys">
-                      KOL.<input type="number" id="myNumber" min="1" max={restaurant.attributes.StockQuantity}></input>
-                      
-                      </div>
-                  
-                  
+
+            <div class="number-input-container quanitys">
+                <button
+                    type="button"
+                    class="button-decrement"
+                    onclick="setNumber(event)"
+                    data-input-id="hue"
+                    data-operation="decrement"
+                ></button>
+                <div class="number-input">
+                    <input
+                        type="number"
+                        id="myNumber"
+                        name="kvantitet"
+                        class="number-input-text-box"
+                        value="0"
+                        min="0"
+                        max={restaurant.attributes.StockQuantity}
+                        oninput="handleNumberInput()"
+                        onblur="handleNumberInputBlur(event)"
+                        data-step="1"
+                    />
+                </div>
+                <button
+                    type="button"
+                    class="button-increment"
+                    onclick="setNumber(event)"
+                    data-input-id="hue"
+                    data-operation="increment"
+                ></button>
+            </div>
+
                   <script>
                   
                     var x = document.getElementById("myNumber").max;
@@ -393,7 +425,6 @@ document.getElementById('cashreturn').value = parseFloat(yyyy).toFixed( 2 );
                   </div>
               </div>
               
-              
           </div>
           </button>
 
@@ -401,21 +432,15 @@ document.getElementById('cashreturn').value = parseFloat(yyyy).toFixed( 2 );
           ))}
         </ul>    </div>
 
-                            <script>
-                            
-                            </script>
-
-
-
       <div class="grid-item grid-item-cart">
-
         <div class="grid-item-recipient">
+        <button onClick={clear} class="clear"><img src="trash.png"></img></button>
           <div>
-            
             <div class="authx">
       {session && (
         <div style={{ marginBottom: 10}} >
-          <div>Email: {session.user.email}</div>
+          <div>Kasir: {session.user.email}</div>
+
         </div>
       )}
       {session ? (
@@ -425,11 +450,20 @@ document.getElementById('cashreturn').value = parseFloat(yyyy).toFixed( 2 );
           <button class="signinout">Sign In</button>
         </Link>
       )}
+
      
     </div>
-    <p class="billid">BROJ RACUNA: {unique_id}</p>
-            <div id="putcart"></div>
-            <div class="billheading">
+    <p>Klijent:</p>
+    <select name="klijent" id="klijent">
+    {customers.data.map(customer => (
+                <option value={customer.attributes.FirstName}>{customer.attributes.FirstName}</option>
+          ))}
+          </select>
+    
+  <br></br>
+    <hr></hr>
+    
+    <div class="billheading">
             <p>========FISKALNI RACUN=======</p>
             <p>000000000</p>
             <p>POSKOK CAFFEE</p>
@@ -439,12 +473,27 @@ document.getElementById('cashreturn').value = parseFloat(yyyy).toFixed( 2 );
             <p>KASIR: <span>{session.user.email}</span></p>
             <p>ESIR broj:</p>
             <p>===========PRODAJA===========</p>
-            <p>BROJ RACUNA:</p>
-            <p id="text">{unique_id}</p>
+            </div>
+            <div id="putcart"></div>
+          </div>
+
+          <div class="bill-inner">
+            <div class="billing">
+
+              <p>ZA UPLATU:<input class="total" id="total" value="0" onChange={e => setTotal(e.target.value)} /></p>
+              <p>GOTOVINA:<input type="text" name="name" class="cash" id ="cash" onChange={handleClicksss}/></p>
+              <p>POVRACAJ:<input class="cashreturn" id="cashreturn" /></p>
+
+            </div>
+            <input class="comment" id="comment" value={comment} onChange={e => setComment(e.target.value)}/>
+
+            <div class="billheading">
+
             <p>=============================</p>
-            <p>PFR VREME: {date + " " + time}</p>
-            <p>PFR VREME: {date + " " + time}</p>
-            <p>PFR VREME: {date + " " + time}</p>
+            <p>PFR vreme: {date + " " + time}</p>
+            <p>PFR broj: {unique_id}</p>
+            <p>Brojac racuna: {unique_id}</p>
+            <p>=============================</p>
 
             <Canvas
       text={unique_id}
@@ -462,41 +511,19 @@ document.getElementById('cashreturn').value = parseFloat(yyyy).toFixed( 2 );
       }}
     />
     <p>=====KRAJ FISKALNOG RACUNA====</p>
-
-            
-
             </div>
-            
-            
-                                  
-
-
-            
-
-          </div>
-          <div class="bill-inner">
-
-            <div>
-
-              <p>UKUPNO:<input class="total" id="total" value="0" onChange={e => setTotal(e.target.value)} /></p>
-              <p>GOTOVINA:<input type="text" name="name" class="cash" id ="cash" onChange={handleClicksss}/></p>
-              <p>POVRACAJ:<input class="cashreturn" id="cashreturn" /></p>
-
-            </div>
-            <input class="comment" id="comment" value={comment} onChange={e => setComment(e.target.value)}/><br></br>
-            
-
-
-
-
-
             <div>
               {err && <h2>{err}</h2>}
-              <button onClick={clear} class="clear">Clear</button>
 
-              <button onClick={handleClick} class="bill">STAMPANJE</button>
+              <p for="nacin">Nacin placanja:
+  <select name="nacin" id="nacin">
+    <option value="Gotovina">Gotovina</option>
+    <option value="Kartica">Kartica</option>
+  </select>
+  <br></br>
+  </p>
               
-
+              <button onClick={handleClick} class="bill">STAMPANJE</button>
 
               {isLoading && <h2>Loading...</h2>}
 
@@ -511,19 +538,13 @@ document.getElementById('cashreturn').value = parseFloat(yyyy).toFixed( 2 );
         </div>
         <div class="recipient">
 
-
         </div>
-        <script>
-
-          
-        </script>
-
       </div>
     </div>
     ) : (
       <div class="start">
          
-        <img src="http://localhost:1337/uploads/Group_2_b1fbbdf67f.png?updated_at=2022-09-17T20:32:22.580Z" class="logos animate__animated animate__bounce"></img>
+        <img src="logo.png" class="logos animate__animated animate__bounce"></img>
         <p>POSKOK - POS</p>
         <p>Kompletno rešenje za poslovanje pravnih lica i preduzetnika</p>
         <div class="start-card">
@@ -539,9 +560,6 @@ document.getElementById('cashreturn').value = parseFloat(yyyy).toFixed( 2 );
 }
 
 Home.getInitialProps = async (context) => {
-
-  
-
   
   try {
     
@@ -559,34 +577,30 @@ Home.getInitialProps = async (context) => {
       });
     };
 
-    
-
-    
-
-    
-    
-
-   
-
     const headers = {
       'Content-Type': 'application/json',
     };
 
-    const restaurants = await fetch('http://localhost:1337/api/products?populate=%2A', {
+    const restaurants = await fetch('http://localhost:1337/api/products?populate=%2A&pagination[page]=1&pagination[pageSize]=10', {
       method: 'GET',
       headers,
     })
       .then(checkStatus)
       .then(parseJSON);
 
-
-      
       const menus = await fetch('http://localhost:1337/api/menus?populate=%2A', {
       method: 'GET',
       headers,
     })
       .then(checkStatus)
       .then(parseJSON);
+
+      const customers = await fetch('http://localhost:1337/api/customers?populate=%2A', {
+        method: 'GET',
+        headers,
+      })
+        .then(checkStatus)
+        .then(parseJSON);
 
       const categories = await fetch('http://localhost:1337/api/categories?populate=%2A', {
       method: 'GET',
@@ -595,24 +609,11 @@ Home.getInitialProps = async (context) => {
       .then(checkStatus)
       .then(parseJSON);
 
-      
-
-    return { menus, restaurants, categories };
+    return { menus, restaurants, categories, customers };
     
   } catch (error) {
     return { error };
   }
-
-  
-
-  
-
-
-
-
-
-
-
 };
 
 
