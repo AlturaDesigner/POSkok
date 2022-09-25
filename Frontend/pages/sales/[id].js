@@ -13,9 +13,8 @@ import { useRouter } from 'next/router'
 function Header({ title }) {
   const router = useRouter()
   const {id } = router.query
-  const { Amount } = router.query
 
- return <h1 class="heading">{title ? title : 'Poskok Store Prototype'}{ Amount } { id }</h1>;
+ return { id }
 
 
 
@@ -76,7 +75,7 @@ const current = new Date();
 
 </div>
 <div class="grid-item">
-<Header />
+
 
 
 
@@ -133,7 +132,7 @@ Sales.getInitialProps = async ctx => {
     };
     
 
-    var saless = await fetch('http://localhost:1337/api/sales?populate=%2A', {
+    var saless = await fetch('http://localhost:1337/api/sales/' + <Header />, {
       method: 'GET',
       headers,
     })

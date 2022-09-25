@@ -1,82 +1,23 @@
-/* /components/Layout.js */
+import CategoryButtons from "./CategoryButtons"
+import Footer from "./Footer"
+import Navbar from "./Navbar"
 
-import React, { useContext } from "react";
-import Head from "next/head";
-import Link from "next/link";
-import { Container, Nav, NavItem } from "reactstrap";
-import { logout } from "../lib/auth";
-import AppContext from "../context/AppContext";
-
-const Layout = (props) => {
-  const title = "Welcome to Nextjs";
-  const { user, setUser } = useContext(AppContext);
-
+const Layout = ({ children, categories }) => {
   return (
-    <div>
-      <Head>
-        <title>{title}</title>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <link
-          rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossOrigin="anonymous"
-        />
-        <script src="https://js.stripe.com/v3" />
-      </Head>
-      <header>
-        <style jsx>
-          {`
-            a {
-              color: white;
-            }
-            h5 {
-              color: white;
-              padding-top: 11px;
-            }
-          `}
-        </style>
-        <Nav className="navbar navbar-dark bg-dark">
-          <NavItem>
-            <Link href="/">
-              <a className="navbar-brand">Home</a>
-            </Link>
-          </NavItem>
-
-          <NavItem className="ml-auto">
-            {user ? (
-              <h5>{user.username}</h5>
-            ) : (
-              <Link href="/register">
-                <a className="nav-link"> Sign up</a>
-              </Link>
-            )}
-          </NavItem>
-          <NavItem>
-            {user ? (
-              <Link href="/">
-                <a
-                  className="nav-link"
-                  onClick={() => {
-                    logout();
-                    setUser(null);
-                  }}
-                >
-                  Logout
-                </a>
-              </Link>
-            ) : (
-              <Link href="/login">
-                <a className="nav-link">Sign in</a>
-              </Link>
-            )}
-          </NavItem>
-        </Nav>
-      </header>
-      <Container>{props.children}</Container>
+    <div className="flex justify-center bg-gray-200">
+      <div className="max-w-screen-lg flex flex-col min-h-screen w-full">
+        <Navbar />
+        <CategoryButtons categories={categories} />
+        <div className="flex-grow">{children}</div>
+        <Footer />
+      </div>
+      <div
+        hidden
+        id="snipcart"
+        data-api-key="ODhhNWUxOGEtNTk0OC00OTQwLWJkOWMtM2M1ZmNjODU1ZDJhNjM3MzMyNzM0NjM1OTMyNjcz"
+      />
     </div>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

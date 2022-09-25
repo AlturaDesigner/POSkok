@@ -13,9 +13,10 @@ export async function fetchAPI(path) {
 }
 
 export async function getCategories() {
-  const categories = await fetchAPI("/api/categories?populate=%2A");
+  const categories = await fetchAPI("/api/categories");
   return categories;
 }
+
 
 export async function getCategory(slug) {
   const categories = await fetchAPI(`/categories?slug=${slug}`);
