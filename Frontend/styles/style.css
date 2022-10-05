@@ -6,16 +6,53 @@
 .billheading{
   display: none;
 }
+.pagination * {
+  justify-content: center;
+  display: inline-block!important;
+  cursor: default;
+}
+.container{
+  width: 100vw!important;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul.pagination li {
+  display: inline-block;
+  border: 1px solid #e2e2e2;
+  justify-content: center;
+  font-size: 16px;
+}
+
+ul.pagination li a {
+  text-decoration: none;
+  color: #337ab7;
+  font-size: 16px;
+  border-color: #DC143C!important;
+}
+
+ul.pagination li.active a {
+  color: white!important;
+}
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
 .product-ul{
-  padding: 0px;
-  margin: 0px;
+  padding: 0px!important;
+  margin: 0px!important;
   display: grid;
-  grid-template-columns: 20% 20% 20% 20% 20%!important;
+  display: inline-block!important;
 }
 .product h2{
   color: #191425;
   font-size: 25px;
 }
+
 .active, #menuitem:hover {
   display: block;
   background-color: #DC143C!important;
@@ -78,6 +115,14 @@ background: #F0F7FC!important;
   font-size: 30px;
   text-align: center;
 }
+.cart-product *{
+  display: inline-grid!important;
+  padding-bottom: 0px!important;
+  padding-top: 0px!important;
+  margin-bottom: 0px!important;
+  margin-top: 0px!important;
+  max-width: 100px!important;
+}
 
 .grid-item-recipient{
   position: fixed;
@@ -85,10 +130,9 @@ background: #F0F7FC!important;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)!important;
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
   background: white;
-  right: 10px;
+  right: 0px;
   bottom: 10px!important;
   top: 10px;
-
   max-width: 100%;
   min-width: 22%;
   height: 100vh;
@@ -97,7 +141,6 @@ background: #F0F7FC!important;
   border: 1px solid #dc143c;
   background: transparent;
   color: #2b2b2b;
-
 }
 .first{
 background: white;
@@ -331,13 +374,14 @@ button {
   color: #2B2B2B;
 }
 #myNumber{
-  background: #F05756;
-  color: #2b2b2b;
   font-weight: 700;
-  font-size: 30px;
+  font-size: 20px;
   border: 0px solid white!important;
   background-color: transparent;
+  color:rgba(28, 28, 49, 1);
   width: 100px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .bill-inner{
   display: block;
@@ -364,17 +408,36 @@ padding: 5px;
 }
 .card .quanitys{
   pointer-events: all!important;
-  z-index: 999;
+  z-index: 999!important;
 }
 @page {
 }
 @media print
 {    
+  @page
+   {
+    size: A4;
+    size: portrait;
+  }
   html, body {
     display: block;
+    height: 100%;
+  }
+  #putcart{
+    overflow-y: none;
+  }
+  *{
+    background: white!important;
   }
   input[type=number]::-webkit-inner-spin-button {
     display: none!important;
+  }
+  .article-grid{
+    display: block;
+  }
+  .article-grid p{
+    display: inline-block!important;
+    width: 33%;
   }
   .grid-item-recipient, .bill-inner{
     position: relative;
@@ -388,12 +451,20 @@ padding: 5px;
     position: relative;
     margin-left: auto!important;
     margin-right: auto!important;
+    font-size: 5vw!important;
+    height: 100%!Important;
 
+  }
+  .cart-product {
+    margin: 0px!important;
+    font-size: 5vw!important;
+    display: grid!important;
   }
   .cart-product *{
     margin: 0px!important;
-    display: inline-block!important;
-  }  
+    padding: 0px!important;
+    font-size: 5vw!important;
+  }    
   *{
     font-family: 'Ubuntu Mono', monospace!important;
     font-weight: 400!important;
@@ -405,6 +476,7 @@ padding: 5px;
   .billing p, .billing{
     margin: 0px!important;
     padding: 0px!important;
+    font-size: 5vw!important;
   }
   hr{
     border-top: 1px dashed black!important;
@@ -420,12 +492,33 @@ padding: 5px;
     padding: 0px!important;
 
   }
+  .grid-item-cart{
+    width: 100vw!important;
+    height: 100vh!important;
+    margin: 0px!important;
+    font-size: 5vw!important;
+  }
     .main-menu
     {
         display: none !important;
     }
-    .product-ul, .bill, .main-product-menus, .main-menus, .dates, .middle-grid, .authx, .billid, .clear{
+    .product-ul, .bill, .main-product-menus, .main-menus, .dates, .middle-grid, .authx, .billid, .clear, #klijent, .middle-grid, #nacin, .first, .hide{
       display: none;
+    }
+    .bill-inner{
+      padding: 0px!important;
+      margin: 0px!important;
+    }
+    .billing{
+      padding: 0px!important;
+      margin: 0px!important;
+    }
+    .middle-grid{
+margin: 20px!important;
+    }
+    .grid-item-cart{
+      width: 100!important;
+      display: block!important;
     }
     .grid-item-recipient{
       box-shadow: none!important;
@@ -452,7 +545,8 @@ padding: 5px;
   padding: 0px;
   color: #1A1525!important;
   font-size: 30px;
-  font-weigh: bold;
+  font-weight: bold;
+  max-width: 220px;
 }
 .product img{
   height: 150px;
@@ -478,6 +572,10 @@ padding: 5px;
 #putcart{
   color: black;
 }
+.totalprice{
+  color: #dc143c;
+  font-size: 24px;
+}
 #putcart .text-black-50{
   display: none;
 }
@@ -493,9 +591,7 @@ padding: 5px;
   display: inline-block;
   width: 100%!important;
 }
-.cart-product *{
-  display: inline-block;
-}
+
 .cart-product img{
   border-radius: 5px;
 }
@@ -515,7 +611,8 @@ hr{
 }
 .mt-3 .quanitys{
   position: relative;
-  z-index: 99!important;
+  z-index: 9999!important;
+
   color: #dc143c !important;
 }
 .mt-3{
@@ -665,6 +762,7 @@ margin-left: auto!important;
 .grid-item-cart{
   padding: 20px;
   margin-right: 0px!important;
+  padding-right: 0px!important;
 }
 .odjava{
   color: #c3c3c3;
@@ -724,13 +822,12 @@ form > div:last-child {
 .number-input-container {
 
     display: grid;
-    grid-template-columns: 48px auto 48px;
+    grid-template-columns: auto auto auto;
 }
 /* DUGME ZA IZBOR KOLICINE*/
 .number-input-container label {
     display: inline-block;
 
-    margin-bottom: 4px;
 
     font-size: 12px;
     line-height: 24px;
@@ -742,7 +839,7 @@ form > div:last-child {
 }
 
 .number-input {
-    width: 60px;
+    width: 70px;
 
     display: inline-block!important;
 
@@ -750,6 +847,17 @@ form > div:last-child {
 
     overflow: hidden;
 }
+
+.card .number-input {
+  width: 60px;
+
+  display: inline-block!important;
+
+  background-color: var(--color-mustard-extra-light);
+
+  overflow: hidden;
+}
+
 
 .number-input-container input[type="number"] {
     -webkit-appearance: none;
@@ -759,8 +867,6 @@ form > div:last-child {
 
     position: relative;
 
-    width: 60px;
-    min-width: 60px;
     height: 48px;
 
     background-color: var(--color-mustard-extra-light);
@@ -848,7 +954,6 @@ form > div:last-child {
 }
 
 .number-input-container button:disabled {
-    pointer-events: none;
 }
 
 .number-input-container button:disabled::after {
@@ -861,11 +966,11 @@ form > div:last-child {
 
 .number-input-container .button-increment::after {
     background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 7V17' stroke='%23112C34' stroke-width='2' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M17 12H7' stroke='%23112C34' stroke-width='2' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
-}
+color:#191425;
+  }
 
 .number-input-container .button-decrement {
     border-right: none;
-    width: 100px;
 }
 
 .number-input-container .button-increment {
@@ -874,3 +979,75 @@ form > div:last-child {
 
 
 /* DUGME ZA IZBOR KOLICINE -- kraj*/
+
+
+
+body {
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+  background: #d1cfd3;
+  font-family: sans-serif;
+}
+
+.livesearch {
+  width: 440px;
+  font-weight: normal;
+  line-height: 1.5;
+  color: #252a32;
+}
+
+.livesearch input {
+  width: 100%;
+  padding: 14px 15px;
+  border-radius: 4px;
+  outline: none;
+  background-color: white;
+  border: none;
+  font-size: 1.2rem;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 0%);
+}
+
+.livesearch input:focus {
+  border: 1px solid rgb(37, 99, 235);
+  box-shadow: 0 1px 1px rgb(0 0 0 / 32%);
+}
+
+.livesearch .list {
+  max-height: 300px;
+  overflow: hidden;
+  overflow-y: auto;
+  width: 100%;
+  margin: 1px 0 0 0;
+  padding: 0;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.list li {
+  padding: 10px;
+  background: white;
+  border-bottom: 1px solid #c7c0c0;
+  margin-top: 0.5px;
+}
+
+.list li:hover {
+  background-color: rgb(37, 99, 235);
+  color: azure;
+  border-color: rgb(37, 99, 235);
+}
+
+
+.cart-product .number-input-container +, .putcart .number-input-container *{
+color: red!important;
+}
+.number-input-container{
+  display: grid!important;
+}
+
+/* Product Single */
+.product-single, .product-single *{
+  width: 100%!important;
+}
+/* */

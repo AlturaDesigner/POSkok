@@ -1,17 +1,16 @@
-
+import { useRouter } from 'next/router'
 import ReactPaginate from 'react-paginate';
 import Router, { withRouter } from 'next/router'
 import { signOut, useSession, getSession } from "next-auth/react";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
-import Cart from "../components/Cart";
+import Cart from "../../components/Cart";
 import axios from "axios";
 import React, { Component } from "react";
 import { v4 as uuid } from "uuid";
 import { useQRCode } from "next-qrcode";
 import "animate.css";
-import Search from '../components/Search';
-import { useRouter } from 'next/router'
+import Search from '..//../components/Search';
 
 let people;
 let testo = "Sve";
@@ -433,6 +432,7 @@ function Footer({ title }) {
           
             <div className="container">
               
+              
                 <div className="posts">
                 {session ? (
                     <div class="grid-container">
@@ -490,7 +490,7 @@ function Footer({ title }) {
                   ))}
                 </div>
               
-                    <ul class="product-ul">
+                    <ul class="product-ul product-single">
                         {props.posts.data.map(post => {
                             return <li
                             key={post.id}
@@ -524,6 +524,9 @@ function Footer({ title }) {
                                   <h2 class="card-title font-weight-bold text-nowrap overflow-hidden text-primary">
                                     {post.attributes.title}
                                   </h2>
+                                  <p class="product-single-desc">
+                                    {post.attributes.description}
+                                  </p>
                                   <div class="d-flex justify-content-between align-items-end mt-3">
                                     <script>
                                       var x = document.getElementById("myNumber").max;
@@ -574,21 +577,7 @@ function Footer({ title }) {
                         })}
                         
                     </ul>
-                    <ReactPaginate
-                    previousLabel={'Prethodna'}
-                    nextLabel={'Sledeca'}
-                    breakLabel={'...'}
-                    breakClassName={'break-me'}
-                    activeClassName={'active'}
-                    containerClassName={'pagination'}
-                    subContainerClassName={'pages pagination'}
-    
-                    initialPage={props.currentPage - 1}
-                    pageCount={props.pageCount}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={pagginationHandler}
-                />
+                   
                     </div>
                     <div class="grid-item grid-item-cart">
                 <div class="grid-item-recipient" id="grid-item-cart">
@@ -755,8 +744,11 @@ function Footer({ title }) {
       const headers = {
         "Content-Type": "application/json",
       };
-        const page = query.page || 1;
-        const posts = await axios.get(`http://localhost:1337/api/products?populate=*&pagination[page]=${page}&pagination[pageSize]=10`);
+        const page = query.pid;
+        const posts = await axios.get(`http://localhost:1337/api/products?filters%5Bid%5D=${page}&populate=*`);
+
+        console.log(posts);
+
         const menus = await axios.get(`http://localhost:1337/api/menus?populate=%2A`);
         const customers = await axios.get('http://localhost:1337/api/customers?populate=%2A', {
           headers,
@@ -766,10 +758,7 @@ function Footer({ title }) {
         });
        
         return {
-            totalCount: posts.data.meta.pagination.total,
-            pageCount: posts.data.meta.pagination.pageCount,
-            currentPage: posts.data.meta.pagination.pageNumber,
-            perPage: posts.data.meta.pagination.pageSize,
+            
             posts: posts.data,
             menus: menus.data,
             categories: categories.data,
@@ -780,3 +769,8 @@ function Footer({ title }) {
     
     
     export default withRouter(Test);
+
+
+
+
+
