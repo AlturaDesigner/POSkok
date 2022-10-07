@@ -14,7 +14,12 @@
 .container{
   width: 100vw!important;
 }
-
+.color{
+  color:crimson!important;
+}
+.secondary-color{
+  color:#616161;
+}
 ul {
   list-style: none;
   padding: 0;
@@ -104,6 +109,7 @@ background: #F0F7FC!important;
   background: white!important;
   position: relative;
   border-radius: 20px 20px 20px 20px;
+  z-index: 999999!important;
 }
 
 .grid-container2 {
@@ -201,6 +207,7 @@ pointer-events: none;
   font-weight: 400;
   margin: 0px!important;
   text-align: center;
+  z-index: 999999!important;
 }
 .main-menus p, .main-menus a {
   display: block;
@@ -1049,5 +1056,50 @@ color: red!important;
 /* Product Single */
 .product-single, .product-single *{
   width: 100%!important;
+}
+/* */
+
+/* Sales page */
+.grid-container-sales{
+  display: grid;
+  grid-template-columns: 6% 94%!important;
+}
+.grid-container-sales #product, .grid-container-sales .product-ul, .grid-container-sales .product{
+  
+  min-width: 70vw;
+  font-size: 14px;
+  text-align: left;
+  margin: 5px;
+  display: inline-block!important;
+}
+.grid-container-sales #product, .grid-container-sales .card-body{
+  display: inline-block;
+
+  padding: 0px;
+}
+
+.sales-container {
+  width: 98%!important;
+  min-width: 98%!important;
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20% 20%!important;
+  background-color: #2196F3;
+  margin: 0px!important;
+  margin-left: 10px!important;
+  margin-right: 10px!important;
+  padding: 0px!important;
+  border-radius: 0px!important;
+}
+.sales-item {
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  text-align: center;
+  padding: 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin: 0px!important;
+  color: #2b2b2b;
+  border-radius: 0px!important;
 }
 /* */

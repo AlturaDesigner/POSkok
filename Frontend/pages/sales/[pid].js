@@ -1,17 +1,16 @@
-
+import { useRouter } from 'next/router'
 import ReactPaginate from 'react-paginate';
 import Router, { withRouter } from 'next/router'
 import { signOut, useSession, getSession } from "next-auth/react";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
-import Cart from "../components/Cart";
+import Cart from "../../components/Cart";
 import axios from "axios";
 import React, { Component } from "react";
 import { v4 as uuid } from "uuid";
 import { useQRCode } from "next-qrcode";
 import "animate.css";
-import Search from '../components/Search';
-import { useRouter } from 'next/router'
+import Search from '..//../components/Search';
 
 let people;
 let testo = "Sve";
@@ -236,11 +235,9 @@ function Footer({ title }) {
 
     window.onload = init;
 
-    var saved = localStorage.getItem("putcart");
 
     // If there are any saved items, update our list
-
-    // If there are any saved items, update our list
+    
     
             return () => {
                 Router.events.off('routeChangeStart', startLoading);
@@ -259,52 +256,16 @@ function Footer({ title }) {
   const [data, setData] = useState();
   const [comment, setComment] = useState();
   const [err, setErr] = useState("");
-  const clear = async () => {
-    document.getElementById("putcart").innerHTML = "";
-    document.getElementById("putcart").innerHTML += "";
-    document.getElementById("total").value = 0;
-    document.getElementById("cash").value = 0;
-    document.getElementById("cashreturn").value = 0;
 
-    let putcart = document.getElementById("putcart");
-    localStorage.setItem("putcart", putcart.innerHTML);
-  };
+  
 
-  const handleClick = async (event) => {
-    let s = event.currentTarget.dataset.id;
-    console.log("this is s " + s)
-
-    setIssLoading(true);
-    try {
-      const { data } = await axios.delete(
-        "http://localhost:1337/api/sales/" + s,
-        
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: "Bearer " + session.jwt,
-          },
-        }
-      );
-      // Osvezavanje strane nakon uspesnog brisanja
-      Router.reload(window.location.pathname)
-
-      setData(data);
-    } catch (err) {
-      setErr(err.message);
-    } finally {
-      setIssLoading(false);
-    }
-  };
-
+  console.log(data);
 
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
   ></link>;
 
-  
  
     
     		//When new page selected in paggination, we take current path and query parrams.
@@ -336,9 +297,10 @@ function Footer({ title }) {
           
             <div className="container">
               
+              
                 <div className="posts">
                 {session ? (
-                    <div class="grid-container grid-container-sales">
+                    <div class="grid-container">
                     <div class="grid-item first">
                 <div class="main-menus" id="menus-parent">
                   <img
@@ -372,74 +334,76 @@ function Footer({ title }) {
                   </Link>
                 )}
               </div>
-              <div class="grid-item">
+              <div class="grid-item middle-grid">
               <Headers />
               
-              
-                    <ul class="">
-                    <div class="">
-                      <div class="sales-container">
-                      <div class="sales-item">
-                                    ID Racuna
-                                  </div>
-                                  <div class="secondary-color sales-item">
-                                    Kreiran
-                                  </div>
-                                  <div class="color sales-item">
-                                    Ukupno
-                                  </div>
-                              <div class="sales-item"></div>
-                            <div class="sales-item"></div>
-
-
-                      </div>
-
+                <ul class="product-ul">
                         {props.posts.data.map(post => {
                             return <li
                             key={post.id}
                             class={
-                              "" +
-                              "sales-container"
+                              "product-list div1 card-columns " +
+                              "product" +
+                              post.id
                             }
+                            id="product"
                           >
-                            
-                                
-                                  <div class="sales-item">
+                            <a class="product-list div1 card-columns " id="product" href={'http://localhost:3000/sales/' + post.id}
+                            >
+                              <div
+                                class="card product pt-4"
+                                data-id={"p" + post.id}
+                              >
+                                <div class="card-body border rounded">
+                                  <p class="card-title font-weight-bold text-nowrap overflow-hidden text-primary">
                                     {post.attributes.Invoice}
-                                  </div>
-                                  <div class="secondary-color sales-item">
+                                  </p>
+                                  <p>Kreairano:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.createdAt}
+                                  </p>
+                                  <p>Azurirano:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.updatedAt}
+                                  </p>
+                                  <p>Objavljeno:</p>
+                                  <p class="secondary-color">
                                     {post.attributes.publishedAt}
-                                  </div>
-                                  <div class="color sales-item">
+                                  </p>
+                                  <p>Ukupno:</p>
+                                  <p class="color">
                                     {post.attributes.Amount}
-                                  </div>
-                              <div class="sales-item"><a  href={'http://localhost:3000/sales/' + post.id}
-                            >Pregled</a></div>
-                            <div class="sales-item"><button onClick={handleClick} class="color" data-id={post.id}
-                            >Brisanje</button></div>
-                            
+                                  </p>
+                                  <p>Nacin placanja:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.PaymentType}
+                                  </p>
+                                  <p>Tip povracaja:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.RefundType}
+                                  </p>
+                                  <p>Komentar:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.Comment}
+                                  </p>
+                                  <p>Artikli:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.Order}
+                                  </p>
+                                  <p>Kasir:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.Cashier}
+                                  </p>
+                                </div>
+                              </div>
+                             
+                            </a>
                            
                           </li>;
                         })}
-
-</div>
                         
                     </ul>
-                    <ReactPaginate
-                    previousLabel={'Prethodna'}
-                    nextLabel={'Sledeca'}
-                    breakLabel={'...'}
-                    breakClassName={'break-me'}
-                    activeClassName={'active'}
-                    containerClassName={'pagination'}
-                    subContainerClassName={'pages pagination'}
-    
-                    initialPage={props.currentPage - 1}
-                    pageCount={props.pageCount}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={pagginationHandler}
-                />
+                   
                     </div>
                     
             </div>
@@ -474,8 +438,11 @@ function Footer({ title }) {
       const headers = {
         "Content-Type": "application/json",
       };
-        const page = query.page || 1;
-        const posts = await axios.get(`http://localhost:1337/api/sales?populate=*&pagination[page]=${page}&pagination[pageSize]=30&sort[0]=id%3Adesc`);
+        const page = query.pid;
+        const posts = await axios.get(`http://localhost:1337/api/sales?filters%5Bid%5D=${page}&populate=*`);
+
+        console.log(posts);
+
         const menus = await axios.get(`http://localhost:1337/api/menus?populate=%2A`);
         const customers = await axios.get('http://localhost:1337/api/customers?populate=%2A', {
           headers,
@@ -485,10 +452,7 @@ function Footer({ title }) {
         });
        
         return {
-            totalCount: posts.data.meta.pagination.total,
-            pageCount: posts.data.meta.pagination.pageCount,
-            currentPage: posts.data.meta.pagination.pageNumber,
-            perPage: posts.data.meta.pagination.pageSize,
+            
             posts: posts.data,
             menus: menus.data,
             categories: categories.data,
@@ -499,3 +463,8 @@ function Footer({ title }) {
     
     
     export default withRouter(Test);
+
+
+
+
+
