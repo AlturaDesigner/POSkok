@@ -306,7 +306,7 @@ function Footer({ title }) {
                   <img
                     src="http://localhost:1337/uploads/poskok_red_bg_3d5af940f4.png?updated_at=2022-09-17T22:08:34.555Z"
                     class="logo"
-                    alt=''></img>
+                  ></img>
                   <li class="main-menus active hidethis">ovo</li>
                   {props.menus.data.map((menu) => (
                     <li key={menu.id} class="main-menus" id="menu-item">
@@ -316,7 +316,7 @@ function Footer({ title }) {
                             "http://localhost:1337" +
                             menu.attributes.image.data.attributes.url
                           }
-                          alt=''></img>
+                        ></img>
                         <a href={menu.attributes.link}>{menu.attributes.name}</a>
                       </div>
                     </li>
@@ -324,12 +324,12 @@ function Footer({ title }) {
                 </div>
                 {session ? (
                   <button class="signoutbtn" onClick={signOut}>
-                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
+                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
                     <p class="odjava">Odjava</p>
                   </button>
                 ) : (
                   <Link href="/auth/sign-in">
-                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
+                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
                     <button>Sign In</button>
                   </Link>
                 )}
@@ -348,90 +348,44 @@ function Footer({ title }) {
                             }
                             id="product"
                           >
-                            <a class="product-list div1 card-columns " id="product" href={'http://localhost:3000/sales/' + post.id}
-                            >
-                              <div
-                                class=""
-                                data-id={"p" + post.id}
-                              >
-                                <div class="">
-                                <p>ID Proizvoda:</p>
-                                  <p class="">
-                                    {post.id}
-                                  </p>
-                                  <p>Kreairano:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.createdAt}
-                                  </p>
-                                  <p>Azurirano:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.updatedAt}
-                                  </p>
-                                  <p>Status:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.status}
-                                  </p>
-                                  <p>Opis:</p>
-                                  <p class="color">
-                                    {post.attributes.description}
-                                  </p>
-                                  <p>Cena:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.price}
-                                  </p>
-                                  <p>Url:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.slug}
-                                  </p>
-                                  <p>Tip zalihe:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.StockType}
-                                  </p>
-                                  <p>Tip proizvoda:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.ItemType}
-                                  </p>
-                                  <p>Veleprodajna cena:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.WholesalePrice}
-                                  </p>
-                                  <p>Maloprodajna cena:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.RetailPrice}
-                                  </p>
-                                  <p>Porez 1:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.Tax1}
-                                  </p>
-                                  <p>Porez 2:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.Tax2}
-                                  </p>
-                                  <p>Na stanju:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.StockQuantity}
-                                  </p>
-                                  <p>Proizvod sadrzi serijski broj:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.ItemHasSerialNumber}
-                                  </p>
-                                  <p>Kolicina po pakovanju:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.QuantityPerPack}
-                                  </p>
-                                  <p>Barkod:</p>
-                                  <p class="secondary-color barcode">
-                                    {post.attributes.Barcode}
-                                  </p>
-                                  <div class="sale-buttons">
-                                  <a href={"http://localhost:3000/editproduct/" + post.id} class="color">Izmena</a>
-                                  <button class="color">Brisanje</button>
-                                  </div>
-                                </div>
-                              </div>
-                             
-                            </a>
                             
+                            <div class="product-form">
+                            <form action="/send-data-here" method="post">
+                            <label for="fname">Kreirano:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.createdAt}></input>
+                            <label for="fname">Azurirano:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.updatedAt}></input>
+                            <label for="fname">Status:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.status}></input>
+                            <label for="fname">Opis:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.description}></input>
+                            <label for="fname">Cena:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.price}></input>
+                            <label for="fname">Url:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.slug}></input>
+                            <label for="fname">Tip zalihe:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.StockType}></input>
+                            <label for="fname">Tip proizvoda:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.ItemType}></input>
+                            <label for="fname">Veleprodajna cena:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.WholesalePrice}></input>
+                            <label for="fname">Maloprodajna cena:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.RetailPrice}></input>
+                            <label for="fname">Porez 1:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.Tax1}></input>
+                            <label for="fname">Porez2:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.Tax2}></input>
+                            <label for="fname">Na stanju:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.StockQuantity}></input>
+                            <label for="fname">Proizvod sadrzi serijski broj:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.ItemHasSerialNumber}></input>
+                            <label for="fname">Kolicina po pakovanju:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.QuantityPerPack}></input>
+                            <label for="fname">Barkod:</label>
+                            <input type="text" id="created" name="created" placeholder={post.attributes.Barcode}></input>
+                            <input type="submit" value="Submit"></input>
+                            </form>
+                            </div>
                            
                           </li>;
                           
@@ -448,7 +402,7 @@ function Footer({ title }) {
                     <img
                       src="logo.png"
                       class="logos animate__animated animate__bounce"
-                      alt='' ></img>
+                    ></img>
                     <p>POSKOK - POS</p>
                     <p>Kompletno rešenje za poslovanje pravnih lica i preduzetnika</p>
                     <div class="start-card">
@@ -479,7 +433,7 @@ function Footer({ title }) {
 
         console.log(posts);
 
-        const menus = await axios.get( process.env.NEXT_PUBLIC_API_URL + `menus?populate=%2A`);
+        const menus = await axios.get(process.env.NEXT_PUBLIC_API_URL + `menus?populate=%2A`);
         const customers = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'customers?populate=%2A', {
           headers,
         });

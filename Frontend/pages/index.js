@@ -18,6 +18,7 @@ let testo = "Sve";
 
 
 
+
 const current = new Date();
 const date = `${current.getDate()}/${
   current.getMonth() + 1
@@ -57,29 +58,18 @@ function Footer({ title }) {
     
     
     const Test = (props) => {
+     
 
-      const router = useRouter()
-  const { pid } = router.query;
-  console.log(pid);
-
-      
-      const { data: session } = useSession();
-      
-
-      const { Canvas } = useQRCode();
-        const [isLoading, setLoading] = useState(false); //State for the loading indicator
+        const router = useRouter()
+        const { pid } = router.query;
+        const { data: session } = useSession();
+        const { Canvas } = useQRCode();
+        const [isLoading, setLoading] = useState(false);
         const startLoading = () => setLoading(true);
         const stopLoading = () => setLoading(false);
-
         const [issLoading, setIssLoading] = useState(false);
 
-        
-    
-    		/*
-    			Posts fetching happens after page navigation, 
-    			so we need to switch Loading state on Router events.
-    		*/
-        useEffect(() => { //After the component is mounted set router event handlers
+        useEffect(() => { 
             Router.events.on('routeChangeStart', startLoading); 
             Router.events.on('routeChangeComplete', stopLoading);
 
@@ -102,17 +92,14 @@ function Footer({ title }) {
     function checkTime(i) {
       if (i < 10) {
         i = "0" + i;
-      } // add zero in front of numbers < 10
+      } 
       return i;
     }
     startTime();
 
     var btnContainer = document.getElementById("menus-parent");
-
-    // Get all buttons with class="btn" inside the container
     var btns = btnContainer.getElementsByClassName("menus-wrap");
-
-    // Loop through the buttons and add the active class to the current/clicked button
+    
     for (var i = 0; i < btns.length; i++) {
       btns[i].addEventListener("click", function () {
         var current = document.getElementsByClassName("active");
@@ -122,7 +109,6 @@ function Footer({ title }) {
     }
 
     function init() {
-      // enable active states for buttons in mobile safari
       document.addEventListener("touchstart", function () {}, false);
 
       setInputButtonState();
@@ -165,7 +151,6 @@ function Footer({ title }) {
 
       for (let input of inputs) {
         if (input.id.length > 0) {
-          // during value transition the old input won't have an id
           const value = input.value;
           const parent = input.parentElement.parentElement;
 
@@ -217,11 +202,9 @@ function Footer({ title }) {
       newInput.value = value;
 
       if (value > input.value) {
-        // right to left
         input.parentElement.appendChild(newInput);
         input.style.marginLeft = -parentBox.width + "px";
       } else if (value < input.value) {
-        // left to right
         newInput.style.marginLeft = -parentBox.width + "px";
         input.parentElement.prepend(newInput);
         window.setTimeout(function () {
@@ -237,13 +220,9 @@ function Footer({ title }) {
     window.onload = init;
 
     var saved = localStorage.getItem("putcart");
-
-    // If there are any saved items, update our list
     document.getElementById("putcart").innerHTML = saved;
 
     var saves = localStorage.getItem("total");
-
-    // If there are any saved items, update our list
     document.getElementById("total").value = saves;
     
             return () => {
@@ -283,7 +262,7 @@ function Footer({ title }) {
     setIssLoading(true);
     try {
       const { data } = await axios.post(
-        "http://localhost:1337/api/sales",
+        "http://designersnfts.com:3000/api/sales",
 
         {
           data: {
@@ -322,7 +301,6 @@ function Footer({ title }) {
     document.getElementById("putcart").innerHTML += "";
   };
 
-  console.log(data);
 
   <link
     rel="stylesheet"
@@ -441,7 +419,7 @@ function Footer({ title }) {
                   <img
                     src="http://localhost:1337/uploads/poskok_red_bg_3d5af940f4.png?updated_at=2022-09-17T22:08:34.555Z"
                     class="logo"
-                  ></img>
+                    alt=''></img>
                   <li class="main-menus active hidethis">ovo</li>
                   {props.menus.data.map((menu) => (
                     <li key={menu.id} class="main-menus" id="menu-item">
@@ -451,7 +429,7 @@ function Footer({ title }) {
                             "http://localhost:1337" +
                             menu.attributes.image.data.attributes.url
                           }
-                        ></img>
+                          alt=''></img>
                         <a href={menu.attributes.link}>{menu.attributes.name}</a>
                       </div>
                     </li>
@@ -459,12 +437,12 @@ function Footer({ title }) {
                 </div>
                 {session ? (
                   <button class="signoutbtn" onClick={signOut}>
-                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
+                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
                     <p class="odjava">Odjava</p>
                   </button>
                 ) : (
                   <Link href="/auth/sign-in">
-                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
+                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
                     <button>Sign In</button>
                   </Link>
                 )}
@@ -481,7 +459,7 @@ function Footer({ title }) {
                             "http://localhost:1337" +
                             category.attributes.image.data.attributes.url
                           }
-                        ></img>
+                          alt=''></img>
                         <a href={"http://localhost:3000/categories/" + category.id}>
                           {category.attributes.name}
                         </a>
@@ -517,8 +495,7 @@ function Footer({ title }) {
                                       post.attributes.image.data.attributes.url
                                     }
                                     class="card-img-top"
-                                    alt=""
-                                  ></img>
+                                    alt=""></img>
                                 </div>
                                 <div class="card-body border rounded">
                                   <h2 class="card-title font-weight-bold text-nowrap overflow-hidden text-primary">
@@ -593,7 +570,7 @@ function Footer({ title }) {
                     <div class="grid-item grid-item-cart">
                 <div class="grid-item-recipient" id="grid-item-cart">
                   <button onClick={clear} class="clear">
-                    <img src="trash.png"></img>
+                    <img src="trash.png" alt=''></img>
                   </button>
                   <div>
                     <div class="authx">
@@ -613,7 +590,7 @@ function Footer({ title }) {
                     <p class="hide">Klijent:</p>
                 <select name="klijent" id="klijent">
                   {props.customers.data.map((customer) => (
-                    <option value={customer.attributes.FirstName}>
+                    <option value={customer.attributes.FirstName} key={customer.id} >
                       {customer.attributes.FirstName}
                     </option>
                   ))}
@@ -729,7 +706,7 @@ function Footer({ title }) {
                     <img
                       src="logo.png"
                       class="logos animate__animated animate__bounce"
-                    ></img>
+                      alt=''></img>
                     <p>POSKOK - POS</p>
                     <p>Kompletno rešenje za poslovanje pravnih lica i preduzetnika</p>
                     <div class="start-card">
@@ -740,28 +717,23 @@ function Footer({ title }) {
                   </div>
                 )}
                 </div>
-
-                
-    
-                
             </div>
         );
     };
 
-    
-    
     Test.getInitialProps = async ({ query }) => {
    
       const headers = {
         "Content-Type": "application/json",
       };
+
         const page = query.page || 1;
-        const posts = await axios.get(`http://localhost:1337/api/products?populate=*&pagination[page]=${page}&pagination[pageSize]=10`);
-        const menus = await axios.get(`http://localhost:1337/api/menus?populate=%2A`);
-        const customers = await axios.get('http://localhost:1337/api/customers?populate=%2A', {
+        const posts = await axios.get(process.env.NEXT_PUBLIC_API_URL + `products?populate=*&pagination[page]=${page}&pagination[pageSize]=10`);
+        const menus = await axios.get(process.env.NEXT_PUBLIC_API_URL + `menus?populate=%2A`);
+        const customers = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'customers?populate=%2A', {
           headers,
         });
-        const categories = await axios.get('http://localhost:1337/api/categories?populate=%2A', {
+        const categories = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'categories?populate=%2A', {
           headers,
         });
        

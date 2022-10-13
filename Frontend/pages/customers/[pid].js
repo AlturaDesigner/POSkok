@@ -306,7 +306,7 @@ function Footer({ title }) {
                   <img
                     src="http://localhost:1337/uploads/poskok_red_bg_3d5af940f4.png?updated_at=2022-09-17T22:08:34.555Z"
                     class="logo"
-                    alt=''></img>
+                  ></img>
                   <li class="main-menus active hidethis">ovo</li>
                   {props.menus.data.map((menu) => (
                     <li key={menu.id} class="main-menus" id="menu-item">
@@ -316,7 +316,7 @@ function Footer({ title }) {
                             "http://localhost:1337" +
                             menu.attributes.image.data.attributes.url
                           }
-                          alt=''></img>
+                        ></img>
                         <a href={menu.attributes.link}>{menu.attributes.name}</a>
                       </div>
                     </li>
@@ -324,12 +324,12 @@ function Footer({ title }) {
                 </div>
                 {session ? (
                   <button class="signoutbtn" onClick={signOut}>
-                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
+                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
                     <p class="odjava">Odjava</p>
                   </button>
                 ) : (
                   <Link href="/auth/sign-in">
-                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
+                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
                     <button>Sign In</button>
                   </Link>
                 )}
@@ -346,7 +346,6 @@ function Footer({ title }) {
                               "product" +
                               post.id
                             }
-                            id="product"
                           >
                             <a class="product-list div1 card-columns " id="product" href={'http://localhost:3000/sales/' + post.id}
                             >
@@ -355,88 +354,101 @@ function Footer({ title }) {
                                 data-id={"p" + post.id}
                               >
                                 <div class="">
-                                <p>ID Proizvoda:</p>
+                                <p>ID Naloga:</p>
                                   <p class="">
                                     {post.id}
                                   </p>
-                                  <p>Kreairano:</p>
+                                  <p>Ime:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.FirstName}
+                                  </p>
+                                  <p>Prezime:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.LastName}
+                                  </p>
+                                  <p>Potvrda:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.Registrationconsent}
+                                  </p>
+                                  <p>Pol:</p>
+                                  <p class="color">
+                                    {post.attributes.Gender}
+                                  </p>
+                                  <p>Email:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.Email}
+                                  </p>
+                                  <p>Telefon:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.PhoneNumber}
+                                  </p>
+                                  <p>Adresa 1:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.Address1}
+                                  </p>
+                                  <p>Adresa 2:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.Address2}
+                                  </p>
+                                  <p>Grad:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.City}
+                                  </p>
+                                  <p>Opstina:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.State}
+                                  </p>
+                                  <p>Postanski kod:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.PostalCode}
+                                  </p>
+                                  <p>Drzava:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.Country}
+                                  </p>
+                                  <p>Napomena:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.Comments}
+                                  </p>
+                                  <p>Tip popusta:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.DiscountType}
+                                  </p>
+                                  <p>Popust:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.Discount}
+                                  </p>
+                                  <p>Kompanija:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.Company}
+                                  </p>
+                                  <p>Nagrade:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.Rewards}
+                                  </p>
+                                  <p>Poeni:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.AvailablePoints}
+                                  </p>
+                                  <p>Oporezivan:</p>
+                                  <p class="secondary-color">
+                                    {post.attributes.Taxable}
+                                  </p>
+                                  <p>Datum Registracije:</p>
                                   <p class="secondary-color">
                                     {post.attributes.createdAt}
                                   </p>
-                                  <p>Azurirano:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.updatedAt}
-                                  </p>
-                                  <p>Status:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.status}
-                                  </p>
-                                  <p>Opis:</p>
-                                  <p class="color">
-                                    {post.attributes.description}
-                                  </p>
-                                  <p>Cena:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.price}
-                                  </p>
-                                  <p>Url:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.slug}
-                                  </p>
-                                  <p>Tip zalihe:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.StockType}
-                                  </p>
-                                  <p>Tip proizvoda:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.ItemType}
-                                  </p>
-                                  <p>Veleprodajna cena:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.WholesalePrice}
-                                  </p>
-                                  <p>Maloprodajna cena:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.RetailPrice}
-                                  </p>
-                                  <p>Porez 1:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.Tax1}
-                                  </p>
-                                  <p>Porez 2:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.Tax2}
-                                  </p>
-                                  <p>Na stanju:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.StockQuantity}
-                                  </p>
-                                  <p>Proizvod sadrzi serijski broj:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.ItemHasSerialNumber}
-                                  </p>
-                                  <p>Kolicina po pakovanju:</p>
-                                  <p class="secondary-color">
-                                    {post.attributes.QuantityPerPack}
-                                  </p>
-                                  <p>Barkod:</p>
-                                  <p class="secondary-color barcode">
-                                    {post.attributes.Barcode}
-                                  </p>
                                   <div class="sale-buttons">
-                                  <a href={"http://localhost:3000/editproduct/" + post.id} class="color">Izmena</a>
+                                  <button class="color">Izmena</button>
                                   <button class="color">Brisanje</button>
                                   </div>
                                 </div>
                               </div>
                              
                             </a>
-                            
                            
                           </li>;
-                          
                         })}
-                        
                         
                     </ul>
                    
@@ -448,7 +460,7 @@ function Footer({ title }) {
                     <img
                       src="logo.png"
                       class="logos animate__animated animate__bounce"
-                      alt='' ></img>
+                    ></img>
                     <p>POSKOK - POS</p>
                     <p>Kompletno rešenje za poslovanje pravnih lica i preduzetnika</p>
                     <div class="start-card">
@@ -475,11 +487,11 @@ function Footer({ title }) {
         "Content-Type": "application/json",
       };
         const page = query.pid;
-        const posts = await axios.get(process.env.NEXT_PUBLIC_API_URL + `products?filters%5Bid%5D=${page}&populate=*`);
+        const posts = await axios.get(process.env.NEXT_PUBLIC_API_URL + `customers?filters%5Bid%5D=${page}&populate=*`);
 
         console.log(posts);
 
-        const menus = await axios.get( process.env.NEXT_PUBLIC_API_URL + `menus?populate=%2A`);
+        const menus = await axios.get(process.env.NEXT_PUBLIC_API_URL + `menus?populate=%2A`);
         const customers = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'customers?populate=%2A', {
           headers,
         });
