@@ -42,9 +42,13 @@
     "reactstrap": "^9.1.4",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     "tailwindcss": "^3.1.8",
     "uuid": "^9.0.0",
     "v8": "^0.1.0"
+=======
+    "uuid": "^9.0.0"
+>>>>>>> parent of 95df5fe (Settings page and code optimizations)
 =======
     "uuid": "^9.0.0"
 >>>>>>> parent of 95df5fe (Settings page and code optimizations)
