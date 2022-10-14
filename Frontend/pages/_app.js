@@ -1,5 +1,8 @@
+
+
+
+
 import '../styles/style.css'
-import '../styles/settings.css'
 import '../styles/globals.css'
 import { SessionProvider } from 'next-auth/react';
 import ReactPaginate from 'react-paginate';
@@ -13,6 +16,9 @@ import React, { Component } from "react";
 import { v4 as uuid } from "uuid";
 import { useQRCode } from "next-qrcode";
 import "animate.css";
+
+
+  
 
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {

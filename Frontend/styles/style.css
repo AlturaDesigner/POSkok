@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Source+Sans+Pro:wght@200;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Libre Barcode 39');
-
 
 
 .billheading{
@@ -25,10 +23,6 @@
 ul {
   list-style: none;
   padding: 0;
-}
-.barcode {
-  font-family: 'Libre Barcode 39';font-size: 50px!important;
-  color: black!important;
 }
 
 ul.pagination li {
@@ -1062,33 +1056,7 @@ color: red!important;
 /* Product Single */
 .product-single, .product-single *{
   width: 100%!important;
-
 }
-.product-form form input, .product-form form section{
-  display: block!important;
-}
-.product-form form, .product-form, .product-form *{
-  width: 100%!Important;
-}
-.product-form form{
-  display: block!important;
-  width: 100vw!important;
-  margin: 0px!important;
-  padding: 0px!important;
-  background: transparent!important;
-  box-shadow: none!important;
-  min-width: 100%!important;
-}
-.product-form label{
-  background: transparent!important;
-}
-.product-form input{
-  background: transparent!important;
-  color: gray!important;
-  border: 1px solid gray;
-}
-
-
 /* */
 
 /* Sales page */
@@ -1114,7 +1082,8 @@ color: red!important;
   width: 98%!important;
   min-width: 98%!important;
   display: grid;
-  grid-template-columns: 16% 16% 16% 16% 16% 16%!important;
+  grid-template-columns: 20% 20% 20% 20% 20%!important;
+  background-color: #2196F3;
   margin: 0px!important;
   margin-left: 10px!important;
   margin-right: 10px!important;
@@ -1132,38 +1101,5 @@ color: red!important;
   margin: 0px!important;
   color: #2b2b2b;
   border-radius: 0px!important;
-}
-.product-list:hover{
-  box-shadow: none!important;
-}
-.sale-buttons, .sale-buttons button{
-  display: inline-block!important;
-  width: 30%!important;
-  margin-right: 20px;
-}
-/* */
-
-
-/*Settings page*/
-.tab-content li:nth-child(even) div {
-  background:#f2f2f2!important;
-}
-
-.grid-item-cart input{
-  display: block!important;
-}
-#comment{
-  display:none!important;
-}
-/**/
-
-/* Add product page */
-.addproduct{
-  background: white;
-  padding: 20px;
-  margin: 10px;
-}
-.addproduct input{
-  z-index: 111111!important;
 }
 /* */

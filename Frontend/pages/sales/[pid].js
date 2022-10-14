@@ -55,11 +55,17 @@ function Footer({ title }) {
 }
     
     
-        const Test = (props) => {
-        const router = useRouter()
-        const { pid } = router.query;
-        const { data: session } = useSession();
-        const { Canvas } = useQRCode();
+    const Test = (props) => {
+
+      const router = useRouter()
+  const { pid } = router.query;
+  console.log(pid);
+
+      
+      const { data: session } = useSession();
+      
+
+      const { Canvas } = useQRCode();
         const [isLoading, setLoading] = useState(false); //State for the loading indicator
         const startLoading = () => setLoading(true);
         const stopLoading = () => setLoading(false);
@@ -300,7 +306,7 @@ function Footer({ title }) {
                   <img
                     src="http://localhost:1337/uploads/poskok_red_bg_3d5af940f4.png?updated_at=2022-09-17T22:08:34.555Z"
                     class="logo"
-                    alt=''></img>
+                  ></img>
                   <li class="main-menus active hidethis">ovo</li>
                   {props.menus.data.map((menu) => (
                     <li key={menu.id} class="main-menus" id="menu-item">
@@ -310,7 +316,7 @@ function Footer({ title }) {
                             "http://localhost:1337" +
                             menu.attributes.image.data.attributes.url
                           }
-                          alt=''></img>
+                        ></img>
                         <a href={menu.attributes.link}>{menu.attributes.name}</a>
                       </div>
                     </li>
@@ -318,12 +324,12 @@ function Footer({ title }) {
                 </div>
                 {session ? (
                   <button class="signoutbtn" onClick={signOut}>
-                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
+                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
                     <p class="odjava">Odjava</p>
                   </button>
                 ) : (
                   <Link href="/auth/sign-in">
-                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
+                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
                     <button>Sign In</button>
                   </Link>
                 )}
@@ -331,7 +337,7 @@ function Footer({ title }) {
               <div class="grid-item middle-grid">
               <Headers />
               
-                <ul class="">
+                <ul class="product-ul">
                         {props.posts.data.map(post => {
                             return <li
                             key={post.id}
@@ -345,12 +351,11 @@ function Footer({ title }) {
                             <a class="product-list div1 card-columns " id="product" href={'http://localhost:3000/sales/' + post.id}
                             >
                               <div
-                                class=""
+                                class="card product pt-4"
                                 data-id={"p" + post.id}
                               >
-                                <div class="">
-                                <p>ID Racuna:</p>
-                                  <p class="">
+                                <div class="card-body border rounded">
+                                  <p class="card-title font-weight-bold text-nowrap overflow-hidden text-primary">
                                     {post.attributes.Invoice}
                                   </p>
                                   <p>Kreairano:</p>
@@ -389,10 +394,6 @@ function Footer({ title }) {
                                   <p class="secondary-color">
                                     {post.attributes.Cashier}
                                   </p>
-                                  <div class="sale-buttons">
-                                  <button class="color">Izmena</button>
-                                  <button class="color">Brisanje</button>
-                                  </div>
                                 </div>
                               </div>
                              
@@ -411,7 +412,7 @@ function Footer({ title }) {
                     <img
                       src="logo.png"
                       class="logos animate__animated animate__bounce"
-                      alt='' ></img>
+                    ></img>
                     <p>POSKOK - POS</p>
                     <p>Kompletno rešenje za poslovanje pravnih lica i preduzetnika</p>
                     <div class="start-card">
@@ -438,12 +439,15 @@ function Footer({ title }) {
         "Content-Type": "application/json",
       };
         const page = query.pid;
-        const posts = await axios.get(process.env.NEXT_PUBLIC_API_URL + `sales?filters%5Bid%5D=${page}&populate=*`);
-        const menus = await axios.get(process.env.NEXT_PUBLIC_API_URL + `menus?populate=%2A`);
-        const customers = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'customers?populate=%2A', {
+        const posts = await axios.get(`http://localhost:1337/api/sales?filters%5Bid%5D=${page}&populate=*`);
+
+        console.log(posts);
+
+        const menus = await axios.get(`http://localhost:1337/api/menus?populate=%2A`);
+        const customers = await axios.get('http://localhost:1337/api/customers?populate=%2A', {
           headers,
         });
-        const categories = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'categories?populate=%2A', {
+        const categories = await axios.get('http://localhost:1337/api/categories?populate=%2A', {
           headers,
         });
        

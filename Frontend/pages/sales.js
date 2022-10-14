@@ -4,12 +4,19 @@ import Router, { withRouter } from 'next/router'
 import { signOut, useSession, getSession } from "next-auth/react";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
+import Cart from "../components/Cart";
 import axios from "axios";
 import React, { Component } from "react";
 import { v4 as uuid } from "uuid";
 import { useQRCode } from "next-qrcode";
 import "animate.css";
+import Search from '../components/Search';
 import { useRouter } from 'next/router'
+
+let people;
+let testo = "Sve";
+
+
 
 const current = new Date();
 const date = `${current.getDate()}/${
@@ -48,18 +55,31 @@ function Footer({ title }) {
   );
 }
     
+    
     const Test = (props) => {
 
-        const router = useRouter()
-        const { pid } = router.query;
-        const { data: session } = useSession();
-        const { Canvas } = useQRCode();
-        const [isLoading, setLoading] = useState(false);
+      const router = useRouter()
+  const { pid } = router.query;
+  console.log(pid);
+
+      
+      const { data: session } = useSession();
+      
+
+      const { Canvas } = useQRCode();
+        const [isLoading, setLoading] = useState(false); //State for the loading indicator
         const startLoading = () => setLoading(true);
         const stopLoading = () => setLoading(false);
+
         const [issLoading, setIssLoading] = useState(false);
 
-        useEffect(() => {
+        
+    
+    		/*
+    			Posts fetching happens after page navigation, 
+    			so we need to switch Loading state on Router events.
+    		*/
+        useEffect(() => { //After the component is mounted set router event handlers
             Router.events.on('routeChangeStart', startLoading); 
             Router.events.on('routeChangeComplete', stopLoading);
 
@@ -217,6 +237,10 @@ function Footer({ title }) {
     window.onload = init;
 
     var saved = localStorage.getItem("putcart");
+
+    // If there are any saved items, update our list
+
+    // If there are any saved items, update our list
     
             return () => {
                 Router.events.off('routeChangeStart', startLoading);
@@ -224,9 +248,32 @@ function Footer({ title }) {
             }
         }, [session])
 
+        const unique_id = uuid();
 
-    const handleClick = async (event) => {
+  const handleClicks = (e) => {
+    document.getElementById("dates").value = "Johnny Bravo";
+  };
+
+  const [valued, setValued] = useState("");
+  const [total, setTotal] = useState("");
+  const [data, setData] = useState();
+  const [comment, setComment] = useState();
+  const [err, setErr] = useState("");
+  const clear = async () => {
+    document.getElementById("putcart").innerHTML = "";
+    document.getElementById("putcart").innerHTML += "";
+    document.getElementById("total").value = 0;
+    document.getElementById("cash").value = 0;
+    document.getElementById("cashreturn").value = 0;
+
+    let putcart = document.getElementById("putcart");
+    localStorage.setItem("putcart", putcart.innerHTML);
+  };
+
+  const handleClick = async (event) => {
     let s = event.currentTarget.dataset.id;
+    console.log("this is s " + s)
+
     setIssLoading(true);
     try {
       const { data } = await axios.delete(
@@ -242,7 +289,6 @@ function Footer({ title }) {
       );
       // Osvezavanje strane nakon uspesnog brisanja
       Router.reload(window.location.pathname)
-      
 
       setData(data);
     } catch (err) {
@@ -258,6 +304,11 @@ function Footer({ title }) {
     href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
   ></link>;
 
+  
+ 
+    
+    		//When new page selected in paggination, we take current path and query parrams.
+    		// Then add or modify page parram and then navigate to the new route.
         const pagginationHandler = (page) => {
             const currentPath = props.router.pathname;
             const currentQuery = props.router.query;
@@ -269,7 +320,8 @@ function Footer({ title }) {
             });
     
         };
-
+    		
+    		//Conditional rendering of the posts list or loading indicator
         let content = null;
         if (isLoading)
             content = <div>Slanje...</div>;
@@ -279,8 +331,9 @@ function Footer({ title }) {
               <div></div>
             );
         }
-
+    
         return (
+          
             <div className="container">
               
                 <div className="posts">
@@ -291,7 +344,7 @@ function Footer({ title }) {
                   <img
                     src="http://localhost:1337/uploads/poskok_red_bg_3d5af940f4.png?updated_at=2022-09-17T22:08:34.555Z"
                     class="logo"
-                    alt=''></img>
+                  ></img>
                   <li class="main-menus active hidethis">ovo</li>
                   {props.menus.data.map((menu) => (
                     <li key={menu.id} class="main-menus" id="menu-item">
@@ -301,7 +354,7 @@ function Footer({ title }) {
                             "http://localhost:1337" +
                             menu.attributes.image.data.attributes.url
                           }
-                          alt=''></img>
+                        ></img>
                         <a href={menu.attributes.link}>{menu.attributes.name}</a>
                       </div>
                     </li>
@@ -309,18 +362,20 @@ function Footer({ title }) {
                 </div>
                 {session ? (
                   <button class="signoutbtn" onClick={signOut}>
-                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
+                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
                     <p class="odjava">Odjava</p>
                   </button>
                 ) : (
                   <Link href="/auth/sign-in">
-                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
+                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
                     <button>Sign In</button>
                   </Link>
                 )}
               </div>
               <div class="grid-item">
               <Headers />
+              
+              
                     <ul class="">
                     <div class="">
                       <div class="sales-container">
@@ -335,7 +390,10 @@ function Footer({ title }) {
                                   </div>
                               <div class="sales-item"></div>
                             <div class="sales-item"></div>
+
+
                       </div>
+
                         {props.posts.data.map(post => {
                             return <li
                             key={post.id}
@@ -344,6 +402,8 @@ function Footer({ title }) {
                               "sales-container"
                             }
                           >
+                            
+                                
                                   <div class="sales-item">
                                     {post.attributes.Invoice}
                                   </div>
@@ -355,10 +415,10 @@ function Footer({ title }) {
                                   </div>
                               <div class="sales-item"><a  href={'http://localhost:3000/sales/' + post.id}
                             >Pregled</a></div>
-                            <div class="sales-item"><a  href={'http://localhost:3000/editsales/' + post.id}
-                            >Izmena</a></div>
                             <div class="sales-item"><button onClick={handleClick} class="color" data-id={post.id}
                             >Brisanje</button></div>
+                            
+                           
                           </li>;
                         })}
 
@@ -388,7 +448,7 @@ function Footer({ title }) {
                     <img
                       src="logo.png"
                       class="logos animate__animated animate__bounce"
-                      alt=''></img>
+                    ></img>
                     <p>POSKOK - POS</p>
                     <p>Kompletno rešenje za poslovanje pravnih lica i preduzetnika</p>
                     <div class="start-card">
@@ -399,9 +459,15 @@ function Footer({ title }) {
                   </div>
                 )}
                 </div>
+
+                
+    
+                
             </div>
         );
     };
+
+    
     
     Test.getInitialProps = async ({ query }) => {
    
@@ -409,12 +475,12 @@ function Footer({ title }) {
         "Content-Type": "application/json",
       };
         const page = query.page || 1;
-        const posts = await axios.get(process.env.NEXT_PUBLIC_API_URL + `sales?populate=*&pagination[page]=${page}&pagination[pageSize]=30&sort[0]=id%3Adesc`);
-        const menus = await axios.get(process.env.NEXT_PUBLIC_API_URL + `menus?populate=%2A`);
-        const customers = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'customers?populate=%2A', {
+        const posts = await axios.get(`http://localhost:1337/api/sales?populate=*&pagination[page]=${page}&pagination[pageSize]=30&sort[0]=id%3Adesc`);
+        const menus = await axios.get(`http://localhost:1337/api/menus?populate=%2A`);
+        const customers = await axios.get('http://localhost:1337/api/customers?populate=%2A', {
           headers,
         });
-        const categories = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'categories?populate=%2A', {
+        const categories = await axios.get('http://localhost:1337/api/categories?populate=%2A', {
           headers,
         });
        
@@ -427,6 +493,7 @@ function Footer({ title }) {
             menus: menus.data,
             categories: categories.data,
             customers: customers.data,
+
         };
     }
     
