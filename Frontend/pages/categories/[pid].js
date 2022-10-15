@@ -613,7 +613,7 @@ function Footer({ title }) {
                     <p class="hide">Klijent:</p>
                 <select name="klijent" id="klijent">
                   {props.customers.data.map((customer) => (
-                    <option value={customer.attributes.FirstName} key={customer.id} >
+                    <option value={customer.attributes.FirstName}>
                       {customer.attributes.FirstName}
                     </option>
                   ))}
@@ -756,12 +756,12 @@ function Footer({ title }) {
         "Content-Type": "application/json",
       };
         const page = query.pid;
-        const posts = await axios.get(process.env.NEXT_PUBLIC_API_URL + `products?populate=*&filters[categories][id][$eq]=${page}`);
-        const menus = await axios.get(process.env.NEXT_PUBLIC_API_URL + `menus?populate=%2A`);
-        const customers = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'customers?populate=%2A', {
+        const posts = await axios.get(`http://localhost:1337/api/products?populate=*&filters[categories][id][$eq]=${page}`);
+        const menus = await axios.get(`http://localhost:1337/api/menus?populate=%2A`);
+        const customers = await axios.get('http://localhost:1337/api/customers?populate=%2A', {
           headers,
         });
-        const categories = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'categories?populate=%2A', {
+        const categories = await axios.get('http://localhost:1337/api/categories?populate=%2A', {
           headers,
         });
        

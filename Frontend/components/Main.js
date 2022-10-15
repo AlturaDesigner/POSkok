@@ -2,21 +2,26 @@
 import ReactPaginate from 'react-paginate';
 import Router, { withRouter } from 'next/router'
 import { signOut, useSession, getSession } from "next-auth/react";
+import Head from "next/head";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
+import { getStrapiMedia } from "/lib/media";
+import { fetchAPI } from "/lib/api";
+import Header from "../components/Header";
 import Cart from "../components/Cart";
+import TodoList from "../containers/todoList";
 import axios from "axios";
 import React, { Component } from "react";
+import { render } from "react-dom";
 import { v4 as uuid } from "uuid";
 import { useQRCode } from "next-qrcode";
 import "animate.css";
-import Search from '../components/Search';
-import { useRouter } from 'next/router'
+import Image from "next/image";
+import { getProducts } from "../utils/api";
+import ReactHtmlParser from "react-html-parser";
 
 let people;
 let testo = "Sve";
-
-
 
 const current = new Date();
 const date = `${current.getDate()}/${
@@ -56,13 +61,7 @@ function Footer({ title }) {
 }
     
     
-    const Test = (props) => {
-
-      const router = useRouter()
-  const { pid } = router.query;
-  console.log(pid);
-
-      
+    const Main = (props) => {
       const { data: session } = useSession();
       
 
@@ -148,7 +147,6 @@ function Footer({ title }) {
 
       if (
         event.target.hasAttribute("min") &&
-
         value < parseFloat(event.target.min)
       )
         event.target.value = event.target.min;
@@ -178,8 +176,8 @@ function Footer({ title }) {
       }
     }
 
-    function setNumber(events) {
-      let button = events.target;
+    function setNumber(event) {
+      let button = event.target;
       let input = document.getElementById(button.dataset.inputId);
 
       if (input) {
@@ -271,6 +269,7 @@ function Footer({ title }) {
     document.getElementById("cashreturn").value = 0;
 
     let putcart = document.getElementById("putcart");
+    // Store
     localStorage.setItem("putcart", putcart.innerHTML);
   };
 
@@ -340,9 +339,8 @@ function Footer({ title }) {
     let somes2 = "total";
     let title = ".product" + removeId + " .card-title";
     let cardimg = ".product" + removeId + " .cover";
-    let quant = ".product" + removeId + " .number-input-container";
+    let quant = ".product" + removeId + " .quanitys";
     let target = document.querySelector('[data-id="p' + removeId + '"]');
-    
 
     let test = document.querySelector(some).innerHTML;
     let tests = document.querySelector(somes).innerHTML;
@@ -370,10 +368,10 @@ function Footer({ title }) {
       testss +
       "</h3>" +
       " " +
-      "<div class='number-input-container'>" +
+      "<p>" +
+      tests +
+      "</p>" +
       testssss +
-      "</div>" + "<p class='totalprice'>" + 
-      tests + "</p>" +
       "</div>" +
       "<hr>";
     document.getElementById("total").value = parseFloat(yyy).toFixed(2);
@@ -421,7 +419,7 @@ function Footer({ title }) {
     		//Conditional rendering of the posts list or loading indicator
         let content = null;
         if (isLoading)
-            content = <div>Slanje...</div>;
+            content = <div>Loading...</div>;
         else {
     				//Generating posts list
             content = (
@@ -439,7 +437,7 @@ function Footer({ title }) {
                     <div class="grid-item first">
                 <div class="main-menus" id="menus-parent">
                   <img
-                    src="http://designernfts.com:1337/uploads/poskok_red_bg_3d5af940f4.png?updated_at=2022-09-17T22:08:34.555Z"
+                    src="http://localhost:1337/uploads/poskok_red_bg_3d5af940f4.png?updated_at=2022-09-17T22:08:34.555Z"
                     class="logo"
                   ></img>
                   <li class="main-menus active hidethis">ovo</li>
@@ -448,7 +446,7 @@ function Footer({ title }) {
                       <div class="menus-wrap">
                         <img
                           src={
-                            "http://designernfts.com:1337" +
+                            "http://localhost:1337" +
                             menu.attributes.image.data.attributes.url
                           }
                         ></img>
@@ -459,23 +457,17 @@ function Footer({ title }) {
                 </div>
                 {session ? (
                   <button class="signoutbtn" onClick={signOut}>
-
-                    <img src="http://designernfts.com:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
-
                     <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
-                  <p class="odjava">Odjava</p>
+                    <p class="odjava">Odjava</p>
                   </button>
                 ) : (
                   <Link href="/auth/sign-in">
-
-                    <img src="http://designernfts.com:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
-
+                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
                     <button>Sign In</button>
                   </Link>
                 )}
               </div>
               <div class="grid-item middle-grid">
-              <Search />
               <Headers />
               <div class="align-left">
                   {props.categories.data.map((category) => (
@@ -483,13 +475,11 @@ function Footer({ title }) {
                       <div class="menus-product-wrap">
                         <img
                           src={
-                            "http://designernfts.com:1337" +
+                            "http://localhost:1337" +
                             category.attributes.image.data.attributes.url
                           }
-
-                          alt=''></img>
-                        <a href={"http://designernfts.com:1337/categories/" + category.id}>
-
+                        ></img>
+                        <a href={"http://localhost:3000/categories/" + category.id}>
                           {category.attributes.name}
                         </a>
                       </div>
@@ -520,7 +510,7 @@ function Footer({ title }) {
                                 <div class="cover">
                                   <img
                                     src={
-                                      "http://designernfts.com:1337" +
+                                      "http://localhost:1337" +
                                       post.attributes.image.data.attributes.url
                                     }
                                     class="card-img-top"
@@ -551,7 +541,7 @@ function Footer({ title }) {
                               <button
                                 type="button"
                                 class="button-decrement"
-                                onclick="setNumber(events)"
+                                onclick="setNumber(event)"
                                 data-input-id="hue"
                                 data-operation="decrement"
                               ></button>
@@ -572,7 +562,7 @@ function Footer({ title }) {
                               <button
                                 type="button"
                                 class="button-increment"
-                                onclick="setNumber(events)"
+                                onclick="setNumber(event)"
                                 data-input-id="hue"
                                 data-operation="increment"
                               ></button>
@@ -617,7 +607,7 @@ function Footer({ title }) {
                         </Link>
                       )}
                     </div>
-                    <p class="hide">Klijent:</p>
+                    <p>Klijent:</p>
                 <select name="klijent" id="klijent">
                   {props.customers.data.map((customer) => (
                     <option value={customer.attributes.FirstName}>
@@ -630,7 +620,7 @@ function Footer({ title }) {
                     <hr></hr>
     
                     <div class="billheading">
-                      <p>===========FISKALNI RACUN===========</p>
+                      <p>========FISKALNI RACUN=======</p>
                       <p>000000000</p>
                       <p>POSKOK CAFFEE</p>
                       <p>0000000 - Kafic Nasumicna ulica</p>
@@ -640,11 +630,6 @@ function Footer({ title }) {
                       </p>
                       <p>ESIR broj:</p>
                       <p>===========PRODAJA===========</p>
-                      <div class="article-grid">
-                        <p>Artikal</p>
-                        <p>Kol</p>
-                        <p>Cena</p>
-                      </div>
                     </div>
                     <Cart />
                   </div>
@@ -722,7 +707,7 @@ function Footer({ title }) {
                         STAMPANJE
                       </button>
     
-                      {issLoading && <h2>Slanje...</h2>}
+                      {issLoading && <h2>Loading...</h2>}
     
                       {data && <div></div>}
                     </div>
@@ -757,33 +742,6 @@ function Footer({ title }) {
 
     
     
-    Test.getInitialProps = async ({ query }) => {
    
-      const headers = {
-        "Content-Type": "application/json",
-      };
-        const page = query.page || 1;
-        const posts = await axios.get(`http://localhost:1337/api/products?populate=*&pagination[page]=${page}&pagination[pageSize]=10`);
-        const menus = await axios.get(`http://localhost:1337/api/menus?populate=%2A`);
-        const customers = await axios.get('http://localhost:1337/api/customers?populate=%2A', {
-          headers,
-        });
-        const categories = await axios.get('http://localhost:1337/api/categories?populate=%2A', {
-          headers,
-        });
-       
-        return {
-            totalCount: posts.data.meta.pagination.total,
-            pageCount: posts.data.meta.pagination.pageCount,
-            currentPage: posts.data.meta.pagination.pageNumber,
-            perPage: posts.data.meta.pagination.pageSize,
-            posts: posts.data,
-            menus: menus.data,
-            categories: categories.data,
-            customers: customers.data,
-
-        };
-    }
     
-    
-    export default withRouter(Test);
+    export default withRouter(Main);

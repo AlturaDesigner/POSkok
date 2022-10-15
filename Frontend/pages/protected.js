@@ -10,6 +10,7 @@ export default function Protected() {
         <title>Strapi - Next - NextAuth</title>
       </Head>
       <h1>Protected Page</h1>
+      <p></p>
       <Link href="/">
         <button>Back to home page</button>
       </Link>
