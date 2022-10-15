@@ -7,6 +7,7 @@ export default function SignIn() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
     const result = await signIn('credentials', {
       redirect: false,
       email: e.target.email.value,
@@ -27,7 +28,7 @@ export default function SignIn() {
       </Head>
       <div class="signin-card">
       <p >DOBRODOSLI U</p>
-      <img src="http://localhost:1337/uploads/poskok_red_2395a142e9.png?updated_at=2022-09-17T21:38:49.133Z" class="logos"></img>
+      <img src="http://designersnfts.com:1337/uploads/poskok_red_2395a142e9.png?updated_at=2022-09-17T21:38:49.133Z" class="logos"></img>
         <p>POSKOK - POS</p>
         <p>Kompletno rešenje za poslovanje pravnih lica i preduzetnika</p>
      

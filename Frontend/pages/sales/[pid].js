@@ -298,7 +298,7 @@ function Footer({ title }) {
                     <div class="grid-item first">
                 <div class="main-menus" id="menus-parent">
                   <img
-                    src="http://localhost:1337/uploads/poskok_red_bg_3d5af940f4.png?updated_at=2022-09-17T22:08:34.555Z"
+                    src="http://designersnfts.com:1337/uploads/poskok_red_bg_3d5af940f4.png?updated_at=2022-09-17T22:08:34.555Z"
                     class="logo"
                     alt=''></img>
                   <li class="main-menus active hidethis">ovo</li>
@@ -307,7 +307,7 @@ function Footer({ title }) {
                       <div class="menus-wrap">
                         <img
                           src={
-                            "http://localhost:1337" +
+                            "http://designersnfts.com:1337" +
                             menu.attributes.image.data.attributes.url
                           }
                           alt=''></img>
@@ -318,12 +318,12 @@ function Footer({ title }) {
                 </div>
                 {session ? (
                   <button class="signoutbtn" onClick={signOut}>
-                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
+                    <img src="http://designersnfts.com:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
                     <p class="odjava">Odjava</p>
                   </button>
                 ) : (
                   <Link href="/auth/sign-in">
-                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
+                    <img src="http://designersnfts.com:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
                     <button>Sign In</button>
                   </Link>
                 )}
