@@ -282,7 +282,7 @@ function Footer({ title }) {
     setIssLoading(true);
     try {
       const { data } = await axios.post(
-        "http://localhost:1337/api/sales",
+        "http://designersnfts.com:1337/api/sales",
 
         {
           data: {
@@ -439,7 +439,7 @@ function Footer({ title }) {
                     <div class="grid-item first">
                 <div class="main-menus" id="menus-parent">
                   <img
-                    src="http://localhost:1337/uploads/poskok_red_bg_3d5af940f4.png?updated_at=2022-09-17T22:08:34.555Z"
+                    src="http://designersnfts.com:1337/uploads/poskok_red_bg_3d5af940f4.png?updated_at=2022-09-17T22:08:34.555Z"
                     class="logo"
                   ></img>
                   <li class="main-menus active hidethis">ovo</li>
@@ -448,7 +448,7 @@ function Footer({ title }) {
                       <div class="menus-wrap">
                         <img
                           src={
-                            "http://localhost:1337" +
+                            "http://designersnfts.com:1337" +
                             menu.attributes.image.data.attributes.url
                           }
                         ></img>
@@ -459,12 +459,12 @@ function Footer({ title }) {
                 </div>
                 {session ? (
                   <button class="signoutbtn" onClick={signOut}>
-                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
+                    <img src="http://designersnfts.com:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
                     <p class="odjava">Odjava</p>
                   </button>
                 ) : (
                   <Link href="/auth/sign-in">
-                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
+                    <img src="http://designersnfts.com:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
                     <button>Sign In</button>
                   </Link>
                 )}
@@ -478,7 +478,7 @@ function Footer({ title }) {
                       <div class="menus-product-wrap">
                         <img
                           src={
-                            "http://localhost:1337" +
+                            "http://designersnfts.com:1337" +
                             category.attributes.image.data.attributes.url
                           }
                         ></img>
@@ -513,7 +513,7 @@ function Footer({ title }) {
                                 <div class="cover">
                                   <img
                                     src={
-                                      "http://localhost:1337" +
+                                      "http://designersnfts.com:1337" +
                                       post.attributes.image.data.attributes.url
                                     }
                                     class="card-img-top"
@@ -613,7 +613,7 @@ function Footer({ title }) {
                     <p class="hide">Klijent:</p>
                 <select name="klijent" id="klijent">
                   {props.customers.data.map((customer) => (
-                    <option value={customer.attributes.FirstName}>
+                    <option value={customer.attributes.FirstName} key={customer.id} >
                       {customer.attributes.FirstName}
                     </option>
                   ))}
@@ -756,12 +756,12 @@ function Footer({ title }) {
         "Content-Type": "application/json",
       };
         const page = query.pid;
-        const posts = await axios.get(`http://localhost:1337/api/products?populate=*&filters[categories][id][$eq]=${page}`);
-        const menus = await axios.get(`http://localhost:1337/api/menus?populate=%2A`);
-        const customers = await axios.get('http://localhost:1337/api/customers?populate=%2A', {
+        const posts = await axios.get(process.env.NEXT_PUBLIC_API_URL + `products?populate=*&filters[categories][id][$eq]=${page}`);
+        const menus = await axios.get(process.env.NEXT_PUBLIC_API_URL + `menus?populate=%2A`);
+        const customers = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'customers?populate=%2A', {
           headers,
         });
-        const categories = await axios.get('http://localhost:1337/api/categories?populate=%2A', {
+        const categories = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'categories?populate=%2A', {
           headers,
         });
        

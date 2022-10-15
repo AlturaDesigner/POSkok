@@ -1,15 +1,21 @@
-
+import { useRouter } from 'next/router'
 import ReactPaginate from 'react-paginate';
 import Router, { withRouter } from 'next/router'
 import { signOut, useSession, getSession } from "next-auth/react";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
+import Cart from "../../components/Cart";
 import axios from "axios";
 import React, { Component } from "react";
 import { v4 as uuid } from "uuid";
 import { useQRCode } from "next-qrcode";
 import "animate.css";
-import { useRouter } from 'next/router'
+import Search from '..//../components/Search';
+
+let people;
+let testo = "Sve";
+
+
 
 const current = new Date();
 const date = `${current.getDate()}/${
@@ -48,18 +54,25 @@ function Footer({ title }) {
   );
 }
     
+    
     const Test = (props) => {
 
         const router = useRouter()
         const { pid } = router.query;
         const { data: session } = useSession();
         const { Canvas } = useQRCode();
-        const [isLoading, setLoading] = useState(false);
+        const [isLoading, setLoading] = useState(false); //State for the loading indicator
         const startLoading = () => setLoading(true);
         const stopLoading = () => setLoading(false);
         const [issLoading, setIssLoading] = useState(false);
 
-        useEffect(() => {
+        
+    
+    		/*
+    			Posts fetching happens after page navigation, 
+    			so we need to switch Loading state on Router events.
+    		*/
+        useEffect(() => { //After the component is mounted set router event handlers
             Router.events.on('routeChangeStart', startLoading); 
             Router.events.on('routeChangeComplete', stopLoading);
 
@@ -216,7 +229,9 @@ function Footer({ title }) {
 
     window.onload = init;
 
-    var saved = localStorage.getItem("putcart");
+
+    // If there are any saved items, update our list
+    
     
             return () => {
                 Router.events.off('routeChangeStart', startLoading);
@@ -224,40 +239,27 @@ function Footer({ title }) {
             }
         }, [session])
 
+        const unique_id = uuid();
 
-    const handleClick = async (event) => {
-    let s = event.currentTarget.dataset.id;
-    setIssLoading(true);
-    try {
-      const { data } = await axios.delete(
-        "http://designersnfts.com:1337/api/sales/" + s,
-        
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: "Bearer " + session.jwt,
-          },
-        }
-      );
-      // Osvezavanje strane nakon uspesnog brisanja
-      Router.reload(window.location.pathname)
-      
-
-      setData(data);
-    } catch (err) {
-      setErr(err.message);
-    } finally {
-      setIssLoading(false);
-    }
+  const handleClicks = (e) => {
+    document.getElementById("dates").value = "Johnny Bravo";
   };
 
+  const [valued, setValued] = useState("");
+  const [total, setTotal] = useState("");
+  const [data, setData] = useState();
+  const [comment, setComment] = useState();
+  const [err, setErr] = useState("");
 
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
   ></link>;
 
+ 
+    
+    		//When new page selected in paggination, we take current path and query parrams.
+    		// Then add or modify page parram and then navigate to the new route.
         const pagginationHandler = (page) => {
             const currentPath = props.router.pathname;
             const currentQuery = props.router.query;
@@ -269,7 +271,8 @@ function Footer({ title }) {
             });
     
         };
-
+    		
+    		//Conditional rendering of the posts list or loading indicator
         let content = null;
         if (isLoading)
             content = <div>Slanje...</div>;
@@ -279,13 +282,15 @@ function Footer({ title }) {
               <div></div>
             );
         }
-
+    
         return (
+          
             <div className="container">
+              
               
                 <div className="posts">
                 {session ? (
-                    <div class="grid-container grid-container-sales">
+                    <div class="grid-container">
                     <div class="grid-item first">
                 <div class="main-menus" id="menus-parent">
                   <img
@@ -319,67 +324,66 @@ function Footer({ title }) {
                   </Link>
                 )}
               </div>
-              <div class="grid-item">
+              <div class="grid-item middle-grid">
               <Headers />
-                    <ul class="">
-                    <div class="">
-                      <div class="sales-container">
-                      <div class="sales-item">
-                                    ID Racuna
-                                  </div>
-                                  <div class="secondary-color sales-item">
-                                    Kreiran
-                                  </div>
-                                  <div class="color sales-item">
-                                    Ukupno
-                                  </div>
-                              <div class="sales-item"></div>
-                            <div class="sales-item"></div>
-                      </div>
+              
+                <ul class="">
                         {props.posts.data.map(post => {
                             return <li
                             key={post.id}
                             class={
-                              "" +
-                              "sales-container"
+                              "product-list div1 card-columns " +
+                              "product" +
+                              post.id
                             }
+                            id="product"
                           >
-                                  <div class="sales-item">
-                                    {post.attributes.Invoice}
-                                  </div>
-                                  <div class="secondary-color sales-item">
-                                    {post.attributes.publishedAt}
-                                  </div>
-                                  <div class="color sales-item">
-                                    {post.attributes.Amount}
-                                  </div>
-                              <div class="sales-item"><a  href={'http://localhost:3000/sales/' + post.id}
-                            >Pregled</a></div>
-                            <div class="sales-item"><a  href={'http://localhost:3000/editsales/' + post.id}
-                            >Izmena</a></div>
-                            <div class="sales-item"><button onClick={handleClick} class="color" data-id={post.id}
-                            >Brisanje</button></div>
+                            
+                            <div class="product-form">
+                            <form action="/send-data-here" method="post">
+                            <label for="fname">Kreirano:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.createdAt}></input>
+                            <label for="fname">Azurirano:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.updatedAt}></input>
+                            <label for="fname">Status:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.status}></input>
+                            <label for="fname">Opis:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.description}></input>
+                            <label for="fname">Cena:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.price}></input>
+                            <label for="fname">Url:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.slug}></input>
+                            <label for="fname">Tip zalihe:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.StockType}></input>
+                            <label for="fname">Tip proizvoda:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.ItemType}></input>
+                            <label for="fname">Veleprodajna cena:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.WholesalePrice}></input>
+                            <label for="fname">Maloprodajna cena:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.RetailPrice}></input>
+                            <label for="fname">Porez 1:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.Tax1}></input>
+                            <label for="fname">Porez2:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.Tax2}></input>
+                            <label for="fname">Na stanju:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.StockQuantity}></input>
+                            <label for="fname">Proizvod sadrzi serijski broj:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.ItemHasSerialNumber}></input>
+                            <label for="fname">Kolicina po pakovanju:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.QuantityPerPack}></input>
+                            <label for="fname">Barkod:</label>
+                            <input type="text" id="created" name="created" value={post.attributes.Barcode}></input>
+                            <input type="submit" value="Submit"></input>
+                            </form>
+                            </div>
+                           
                           </li>;
+                          
                         })}
-
-</div>
+                        
                         
                     </ul>
-                    <ReactPaginate
-                    previousLabel={'Prethodna'}
-                    nextLabel={'Sledeca'}
-                    breakLabel={'...'}
-                    breakClassName={'break-me'}
-                    activeClassName={'active'}
-                    containerClassName={'pagination'}
-                    subContainerClassName={'pages pagination'}
-    
-                    initialPage={props.currentPage - 1}
-                    pageCount={props.pageCount}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={pagginationHandler}
-                />
+                   
                     </div>
                     
             </div>
@@ -399,17 +403,23 @@ function Footer({ title }) {
                   </div>
                 )}
                 </div>
+
+                
+    
+                
             </div>
         );
     };
+
+    
     
     Test.getInitialProps = async ({ query }) => {
    
       const headers = {
         "Content-Type": "application/json",
       };
-        const page = query.page || 1;
-        const posts = await axios.get(process.env.NEXT_PUBLIC_API_URL + `sales?populate=*&pagination[page]=${page}&pagination[pageSize]=30&sort[0]=id%3Adesc`);
+        const page = query.pid;
+        const posts = await axios.get(process.env.NEXT_PUBLIC_API_URL + `sales?filters%5Bid%5D=${page}&populate=*`);
         const menus = await axios.get(process.env.NEXT_PUBLIC_API_URL + `menus?populate=%2A`);
         const customers = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'customers?populate=%2A', {
           headers,
@@ -419,16 +429,19 @@ function Footer({ title }) {
         });
        
         return {
-            totalCount: posts.data.meta.pagination.total,
-            pageCount: posts.data.meta.pagination.pageCount,
-            currentPage: posts.data.meta.pagination.pageNumber,
-            perPage: posts.data.meta.pagination.pageSize,
+            
             posts: posts.data,
             menus: menus.data,
             categories: categories.data,
             customers: customers.data,
+
         };
     }
     
     
     export default withRouter(Test);
+
+
+
+
+
