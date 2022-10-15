@@ -439,7 +439,7 @@ function Footer({ title }) {
                     <div class="grid-item first">
                 <div class="main-menus" id="menus-parent">
                   <img
-                    src="http://localhost:1337/uploads/poskok_red_bg_3d5af940f4.png?updated_at=2022-09-17T22:08:34.555Z"
+                    src="http://designernfts.com:1337/uploads/poskok_red_bg_3d5af940f4.png?updated_at=2022-09-17T22:08:34.555Z"
                     class="logo"
                   ></img>
                   <li class="main-menus active hidethis">ovo</li>
@@ -448,7 +448,7 @@ function Footer({ title }) {
                       <div class="menus-wrap">
                         <img
                           src={
-                            "http://localhost:1337" +
+                            "http://designernfts.com:1337" +
                             menu.attributes.image.data.attributes.url
                           }
                         ></img>
@@ -459,12 +459,17 @@ function Footer({ title }) {
                 </div>
                 {session ? (
                   <button class="signoutbtn" onClick={signOut}>
+
+                    <img src="http://designernfts.com:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
+
                     <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
-                    <p class="odjava">Odjava</p>
+                  <p class="odjava">Odjava</p>
                   </button>
                 ) : (
                   <Link href="/auth/sign-in">
-                    <img src="http://localhost:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z"></img>
+
+                    <img src="http://designernfts.com:1337/uploads/log_in_8642b14caa.png?updated_at=2022-09-17T22:12:32.586Z" alt=''></img>
+
                     <button>Sign In</button>
                   </Link>
                 )}
@@ -478,11 +483,13 @@ function Footer({ title }) {
                       <div class="menus-product-wrap">
                         <img
                           src={
-                            "http://localhost:1337" +
+                            "http://designernfts.com:1337" +
                             category.attributes.image.data.attributes.url
                           }
-                        ></img>
-                        <a href={"http://localhost:3000/categories/" + category.id}>
+
+                          alt=''></img>
+                        <a href={"http://designernfts.com:1337/categories/" + category.id}>
+
                           {category.attributes.name}
                         </a>
                       </div>
@@ -513,7 +520,7 @@ function Footer({ title }) {
                                 <div class="cover">
                                   <img
                                     src={
-                                      "http://localhost:1337" +
+                                      "http://designernfts.com:1337" +
                                       post.attributes.image.data.attributes.url
                                     }
                                     class="card-img-top"
