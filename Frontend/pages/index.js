@@ -6,12 +6,15 @@ import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import Cart from "../components/Cart";
 import axios from "axios";
+
 import React, { Component } from "react";
 import { v4 as uuid } from "uuid";
 import { useQRCode } from "next-qrcode";
 import "animate.css";
 import Search from '../components/Search';
 import { useRouter } from 'next/router'
+
+
 
 let people;
 let testo = "Sve";
