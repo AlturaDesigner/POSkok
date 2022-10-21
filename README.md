@@ -2,6 +2,6 @@
 # POSKOK POS SISTEM
 
 POSkok je POS sistem pravljen u Nextjs. Sistem koristi Strapi api za upravljanjem informacijama.
-Ovo moj privatni projekat kojem je prvobitna namena bila da naucim Nextjs u slobodno vreme.
+Ovo moj privatni projekat u izradi kojem je prvobitna namena bila da naucim Next.js u slobodno vreme.
 
 
